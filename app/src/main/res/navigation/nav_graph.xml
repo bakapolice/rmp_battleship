@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainScreenFragment">
+
+    <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="com.rmpcourse.battleship.ui.views.MainScreenFragment"
+        android:label="MainScreen"
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_scoresFragment"
+            app:destination="@id/scoresFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scoresFragment"
+        android:name="com.rmpcourse.battleship.ui.views.ScoresFragment"
+        android:label="Scores"
+        tools:layout="@layout/fragment_scores" >
+        <action
+            android:id="@+id/action_scoresFragment_to_scoreDetailedFragment"
+            app:destination="@id/scoreDetailedFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_mainScreenFragment" app:destination="@id/mainScreenFragment" />
+    <fragment
+        android:id="@+id/scoreDetailedFragment"
+        android:name="com.rmpcourse.battleship.ui.views.ScoreDetailedFragment"
+        android:label="Detailed"
+        tools:layout="@layout/fragment_score_detailed"/>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.rmpcourse.battleship.ui.views.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_matchFragment"
+            app:destination="@id/matchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchFragment"
+        android:name="com.rmpcourse.battleship.ui.views.MatchFragment"
+        android:label="fragment_match"
+        tools:layout="@layout/fragment_match" >
+        <action
+            android:id="@+id/action_matchFragment_to_inGameFragment"
+            app:destination="@id/inGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inGameFragment"
+        android:name="com.rmpcourse.battleship.ui.views.InGameFragment"
+        android:label="fragment_in_game"
+        tools:layout="@layout/fragment_in_game" >
+        <action
+            android:id="@+id/action_inGameFragment_to_resultsFragment"
+            app:destination="@id/resultsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="com.rmpcourse.battleship.ui.views.ResultsFragment"
+        android:label="fragment_results"
+        tools:layout="@layout/fragment_results" />
+</navigation>
