@@ -7,11 +7,13 @@ import com.rmpcourse.battleship.data.score.Score;
 
 import java.util.List;
 
+/* TODO: RENAME COLUMNS PROPERLY */
+
 public class PlayerWithScores {
     @Embedded public Player player;
     @Relation(
             parentColumn = "playerId",
-            entityColumn = "playerScoreId"
+            entityColumn = "player_score_id"
     )
     public List<Score> scores;
 }

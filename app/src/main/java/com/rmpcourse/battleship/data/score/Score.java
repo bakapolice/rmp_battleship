@@ -15,7 +15,7 @@ public class Score {
     @ColumnInfo(name = "target_username")
     public String targetUsername = "";
 
-    @ColumnInfo(name = "player_id")
+    @ColumnInfo(name = "player_score_id")
     public int playerScoreId;
 
     public Long date = 0L;
