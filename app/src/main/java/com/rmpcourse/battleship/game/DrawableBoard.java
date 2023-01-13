@@ -1,4 +1,4 @@
-package com.rmpcourse.battleship.ui.game;
+package com.rmpcourse.battleship.game;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -28,7 +28,7 @@ public class DrawableBoard extends TableLayout
         super(context);
         this.squares = new DrawableSquare[BoardSize.COLUMNS][BoardSize.ROWS];
 
-        // Creates Grid of Squares
+        // Создание сетки из квадратов
         for (int i = 0; i < BoardSize.ROWS; i++)
         {
             TableRow row = new TableRow(context);
@@ -39,7 +39,7 @@ public class DrawableBoard extends TableLayout
                 LinearLayout layout = new LinearLayout(context);
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(buttonWidth, buttonWidth);
 
-                // Creates Square with X = j, Y = i
+                // Создание Квадрата с координатами X = j и Y = i
                 final DrawableSquare square = new DrawableSquare(context, new Coordinate(j, i));
                 square.setLayoutParams(buttonLayoutParams);
 
@@ -50,7 +50,6 @@ public class DrawableBoard extends TableLayout
         }
     }
 
-    // TODO Improve Efficiency
     public void colorReset()
     {
         for (int i = 0; i < BoardSize.COLUMNS; i++)
@@ -98,130 +97,111 @@ class DrawableBoardPlacing extends DrawableBoard
         this.board = board;
         this.ships = board.getShips();
 
-        // Creates Grid of Squares
+        // Создание сетки из квадратиков
         for (int i = 0; i < BoardSize.ROWS; i++)
         {
             for (int j = 0; j < BoardSize.COLUMNS; j++)
             {
                 final DrawableSquare square = squares[i][j];
 
-                // Drag and Drop Event Handlers
-                square.setOnTouchListener(new OnTouchListener()
-                {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent)
+                // Слушатели drug and drop
+                square.setOnTouchListener((view, motionEvent) -> {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
                     {
-                        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                        int x = square.getCoordinate().getX();
+                        int y = square.getCoordinate().getY();
+                        boolean shipClicked = false;
+
+                        for (Ship ship : ships)
                         {
-                            int x = square.getCoordinate().getX();
-                            int y = square.getCoordinate().getY();
-                            boolean shipClicked = false;
-
-                            for (Ship ship : ships)
+                            for (Coordinate coordinate : ship.getListCoordinates())
                             {
-                                for (Coordinate coordinate : ship.getListCoordinates())
+                                int shipX = coordinate.getX();
+                                int shipY = coordinate.getY();
+
+                                if (x == shipX && y == shipY)
                                 {
-                                    int shipX = coordinate.getX();
-                                    int shipY = coordinate.getY();
-
-                                    if (x == shipX && y == shipY)
+                                    if (activeShip == ship)
                                     {
-                                        if (activeShip == ship)
-                                        {
-                                            shipFirstTouch = false;
-                                        }
-                                        else
-                                        {
-                                            shipFirstTouch = true;
-                                            activeShip = ship;
-                                        }
-
-                                        shipClicked = true;
-                                        break;
+                                        shipFirstTouch = false;
                                     }
+                                    else
+                                    {
+                                        shipFirstTouch = true;
+                                        activeShip = ship;
+                                    }
+
+                                    shipClicked = true;
+                                    break;
                                 }
                             }
-
-                            if (shipClicked)
-                            {
-                                colorShips();
-
-                                ClipData data = ClipData.newPlainText("", "");
-                                DragShadowBuilder shadowBuilder = new MyDragShadowBuilder();
-                                view.startDrag(data, shadowBuilder, view, 0);
-
-                                return true;
-                            }
-                            else
-                            {
-                                activeShip = null;
-                                colorShips();
-                            }
                         }
 
-                        return false;
+                        if (shipClicked)
+                        {
+                            colorShips();
+
+                            ClipData data = ClipData.newPlainText("", "");
+                            DragShadowBuilder shadowBuilder = new MyDragShadowBuilder();
+                            view.startDrag(data, shadowBuilder, view, 0);
+
+                            return true;
+                        }
+                        else
+                        {
+                            activeShip = null;
+                            colorShips();
+                        }
                     }
+
+                    return false;
                 });
 
-                square.setOnDragListener(new OnDragListener()
-                {
-                    @Override
-                    public boolean onDrag(View view, DragEvent dragEvent)
+                square.setOnDragListener((view, dragEvent) -> {
+                    if (activeShip != null)
                     {
-                        if (activeShip != null)
+                        switch(dragEvent.getAction())
                         {
-                            switch(dragEvent.getAction())
-                            {
-                                case DragEvent.ACTION_DRAG_STARTED:
-                                    shipDragged = false;
-                                    break;
-                                case DragEvent.ACTION_DRAG_ENTERED:
-                                    DrawableSquare square = (DrawableSquare) view;
-                                    Coordinate squareCoordinate = square.getCoordinate();
+                            case DragEvent.ACTION_DRAG_STARTED:
+                                shipDragged = false;
+                                break;
+                            case DragEvent.ACTION_DRAG_ENTERED:
+                                DrawableSquare square1 = (DrawableSquare) view;
+                                Coordinate squareCoordinate = square1.getCoordinate();
 
-                                    if (shipDragged)
+                                if (shipDragged)
+                                {
+                                    if (activeShip.getDirection() == ShipDirection.HORIZONTAL)
                                     {
-                                        if (activeShip.getDirection() == ShipDirection.HORIZONTAL)
-                                        {
-                                            activeShip.setCoordinate(new Coordinate(squareCoordinate.getX() - ((activeShip.getLength() - 1) / 2), squareCoordinate.getY()));
-                                        }
-                                        else if (activeShip.getDirection() == ShipDirection.VERTICAL)
-                                        {
-                                            activeShip.setCoordinate(new Coordinate(squareCoordinate.getX(), squareCoordinate.getY() - ((activeShip.getLength() - 1) / 2)));
-                                        }
-
-                                        colorShips();
+                                        activeShip.setCoordinate(new Coordinate(squareCoordinate.getX() - ((activeShip.getLength() - 1) / 2), squareCoordinate.getY()));
+                                    }
+                                    else if (activeShip.getDirection() == ShipDirection.VERTICAL)
+                                    {
+                                        activeShip.setCoordinate(new Coordinate(squareCoordinate.getX(), squareCoordinate.getY() - ((activeShip.getLength() - 1) / 2)));
                                     }
 
-                                    break;
-                                case DragEvent.ACTION_DRAG_EXITED:
-                                    shipDragged = true;
-                                    break;
-                                case DragEvent.ACTION_DROP:
-                                    if (!shipDragged && !shipFirstTouch)
-                                    {
-                                        // Rotates Ships only if Center Square is Clicked
-                                        /*DrawableSquare squareDrop = (DrawableSquare) view;
+                                    colorShips();
+                                }
 
-                                        if (squareDrop.getCoordinate().equals(activeShip.getCenter()))
-                                        {
-                                            activeShip.rotate();
-                                            colorShips();
-                                        }*/
-
-                                        activeShip.rotate();
-                                        colorShips();
-                                    }
-                                    break;
-                                case DragEvent.ACTION_DRAG_ENDED:
-                                    break;
-                                default:
-                                    break;
-                            }
+                                break;
+                            case DragEvent.ACTION_DRAG_EXITED:
+                                shipDragged = true;
+                                break;
+                            case DragEvent.ACTION_DROP:
+                                if (!shipDragged && !shipFirstTouch)
+                                {
+                                    activeShip.rotate();
+                                    colorShips();
+                                }
+                                break;
+                            case DragEvent.ACTION_DRAG_ENDED:
+                                break;
+                            default:
+                                break;
                         }
-
-                        return true;
                     }
+
+                    return true;
                 });
             }
         }
@@ -265,7 +245,7 @@ class DrawableBoardPlacing extends DrawableBoard
         }
     }
 
-    // TODO Improve Efficiency - Reset Colors and Icons in a single function
+    // TODO Сделать сброс цветов и иконок в одной функции
     public void colorShips()
     {
         colorReset();

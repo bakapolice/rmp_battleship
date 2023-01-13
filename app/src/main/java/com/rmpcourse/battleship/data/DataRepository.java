@@ -8,6 +8,7 @@ import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
 import com.rmpcourse.battleship.data.leaderboard.LeaderboardDao;
 import com.rmpcourse.battleship.data.player.Player;
 import com.rmpcourse.battleship.data.player.PlayerDao;
+import com.rmpcourse.battleship.data.player.PlayerWithScores;
 import com.rmpcourse.battleship.data.score.Score;
 import com.rmpcourse.battleship.data.score.ScoreDao;
 
@@ -25,7 +26,7 @@ public class DataRepository {
     private LeaderboardDao mLeaderboardDao;
     private LiveData<List<Leaderboard>> mAllLeaderboards;
 
-    DataRepository(Application application) {
+    public DataRepository(Application application) {
         BattleshipRoomDatabase db = BattleshipRoomDatabase.getDatabase(application);
         mPlayerDao = db.playerDao();
         mAllPlayers = mPlayerDao.getAllPlayers();
@@ -42,19 +43,19 @@ public class DataRepository {
      * Player
      */
 
-    void insert(Player player){
+    public void insert(Player player){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mPlayerDao.insert(player));
     }
 
-    void update(Player player){
+    public void update(Player player){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mPlayerDao.update(player));
     }
 
-    void delete(Player player){
+    public void delete(Player player){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mPlayerDao.delete(player));
     }
 
-    LiveData<List<Player>> getAllPlayers(){
+    public LiveData<List<Player>> getAllPlayers(){
         return mAllPlayers;
     }
 
@@ -63,19 +64,19 @@ public class DataRepository {
      * Score
      */
 
-    void insert(Score score){
+    public void insert(Score score){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mScoreDao.insert(score));
     }
 
-    void update(Score score){
+    public void update(Score score){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mScoreDao.update(score));
     }
 
-    void delete(Score score){
+    public void delete(Score score){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mScoreDao.delete(score));
     }
 
-    LiveData<List<Score>> getAllScores(){
+    public LiveData<List<Score>> getAllScores(){
         return mAllScores;
     }
 
@@ -84,19 +85,19 @@ public class DataRepository {
      * Leaderboard
      */
 
-    void insert(Leaderboard leaderboard){
+    public void insert(Leaderboard leaderboard){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mLeaderboardDao.insert(leaderboard));
     }
 
-    void update(Leaderboard leaderboard){
+    public void update(Leaderboard leaderboard){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mLeaderboardDao.update(leaderboard));
     }
 
-    void delete(Leaderboard leaderboard){
+    public void delete(Leaderboard leaderboard){
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mLeaderboardDao.delete(leaderboard));
     }
 
-    LiveData<List<Leaderboard>> getAllLeaderboards(){
+    public LiveData<List<Leaderboard>> getAllLeaderboards(){
         return mAllLeaderboards;
     }
 

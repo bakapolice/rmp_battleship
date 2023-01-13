@@ -11,20 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rmpcourse.battleship.R;
-import com.rmpcourse.battleship.databinding.FragmentRegisterBinding;
+import com.rmpcourse.battleship.databinding.FragmentLoginBinding;
 
-public class RegisterFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
-    private FragmentRegisterBinding binding;
+    private FragmentLoginBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentRegisterBinding.inflate(inflater, container, false);
+        binding = FragmentLoginBinding.inflate(inflater, container, false);
 
-        binding.buttonSignUp.setOnClickListener(view -> {
-            NavDirections action = RegisterFragmentDirections
-                    .actionRegisterFragmentToStartFragment();
+        binding.buttonSignIn.setOnClickListener(view -> {
+            NavDirections action = LoginFragmentDirections
+                    .actionLoginFragmentToStartFragment();
             Navigation.findNavController(view).navigate(action);
         });
 

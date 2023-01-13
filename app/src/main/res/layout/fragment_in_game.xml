@@ -1,14 +1,409 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.views.InGameFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".ui.views.InGameFragment">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/screen_place_ships"
+            style="@style/Screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/text_place_ships"
+                style="@style/TextLargeAccent"
+                android:text="@string/place_ships" />
+
+            <TextView
+                android:id="@+id/text_place_ships_instructions"
+                style="@style/TextInstructions"
+                android:text="@string/place_ships_instructions" />
+
+            <LinearLayout
+                android:id="@+id/battleship_grid_placing"
+                style="@style/Grid" />
+
+            <TextView
+                android:id="@+id/text_timer"
+                style="@style/TextLarge"
+                android:text="@string/timer" />
+
+            <Button
+                android:id="@+id/button_rotate_ship"
+                style="@style/ButtonLight"
+                android:onClick="buttonRotateShip"
+                android:text="@string/rotate"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/button_place_ships_randomly"
+                style="@style/ButtonLight"
+                android:onClick="buttonPlaceShipsRandomly"
+                android:text="@string/random" />
+
+            <Button
+                android:id="@+id/button_confirm_ships"
+                style="@style/ButtonBlue"
+                android:onClick="buttonConfirmShips"
+                android:text="@string/confirm_ships" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/screen_target_board"
+            style="@style/Screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/text_my_turn"
+                style="@style/TextLargeAccent"
+                android:text="@string/your_turn" />
+
+            <TextView
+                android:id="@+id/text_target_ships"
+                style="@style/TextInstructions"
+                android:text="@string/target_ships" />
+
+            <LinearLayout
+                android:id="@+id/target_battleship_grid"
+                style="@style/Grid" />
+
+            <TextView
+                android:id="@+id/text_target_ships_remaining"
+                style="@style/TextMedium"
+                android:text="@string/ships_remaining" />
+
+            <LinearLayout
+                android:id="@+id/layout_target_ship_statuses"
+                style="@style/ShipStatuses">
+
+                <LinearLayout
+                    android:id="@+id/layout_target_ships_row_top"
+                    style="@style/ShipRow">
+
+                    <LinearLayout
+                        android:id="@+id/layout_target_carrier"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_target_carrier"
+                            style="@style/ShipIconTop"
+                            android:contentDescription="@string/carrier"
+                            android:src="@drawable/carrier" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_target_carrier_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_target_carrier_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/carrier_size" />
+
+                            <TextView
+                                android:id="@+id/text_target_carrier"
+                                style="@style/TextSmall"
+                                android:text="@string/carrier" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_target_battleship"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_target_battleship"
+                            style="@style/ShipIconTop"
+                            android:contentDescription="@string/battleship"
+                            android:src="@drawable/battleship" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_target_battleship_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_target_battleship_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/battleship_size" />
+
+                            <TextView
+                                android:id="@+id/text_target_battleship"
+                                style="@style/TextSmall"
+                                android:text="@string/battleship" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_target_ships_row_bottom"
+                    style="@style/ShipRowBottom">
+
+                    <LinearLayout
+                        android:id="@+id/layout_target_cruiser"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_target_cruiser"
+                            style="@style/ShipIcon"
+                            android:contentDescription="@string/cruiser"
+                            android:src="@drawable/cruiser" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_target_cruiser_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_target_cruiser_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/cruiser_size" />
+
+                            <TextView
+                                android:id="@+id/text_target_cruiser"
+                                style="@style/TextSmall"
+                                android:text="@string/cruiser" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_target_submarine"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_target_submarine"
+                            style="@style/ShipIcon"
+                            android:contentDescription="@string/submarine"
+                            android:src="@drawable/submarine" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_target_submarine_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_target_submarine_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/submarine_size" />
+
+                            <TextView
+                                android:id="@+id/text_target_submarine"
+                                style="@style/TextSmall"
+                                android:text="@string/submarine" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_target_destroyer"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_target_destroyer"
+                            style="@style/ShipIcon"
+                            android:contentDescription="@string/destroyer"
+                            android:src="@drawable/destroyer" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_target_destroyer_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_target_destroyer_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/destroyer_size" />
+
+                            <TextView
+                                android:id="@+id/text_target_destroyer"
+                                style="@style/TextSmall"
+                                android:text="@string/destroyer" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/screen_my_board"
+            style="@style/Screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/text_other_player_turn"
+                style="@style/TextLargeAccent"
+                android:text="@string/your_turn" />
+
+            <TextView
+                android:id="@+id/text_wait_your_turn"
+                style="@style/TextInstructions"
+                android:text="@string/wait_your_turn" />
+
+            <LinearLayout
+                android:id="@+id/my_battleship_grid"
+                style="@style/Grid" />
+
+            <TextView
+                android:id="@+id/text_my_ships_remaining"
+                style="@style/TextMedium"
+                android:text="@string/ships_remaining" />
+
+            <LinearLayout
+                android:id="@+id/layout_my_ship_statuses"
+                style="@style/ShipStatuses">
+
+                <LinearLayout
+                    android:id="@+id/layout_my_ships_row_top"
+                    style="@style/ShipRow">
+
+                    <LinearLayout
+                        android:id="@+id/layout_my_carrier"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_my_carrier"
+                            style="@style/ShipIconTop"
+                            android:contentDescription="@string/carrier"
+                            android:src="@drawable/carrier" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_my_carrier_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_my_carrier_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/carrier_size" />
+
+                            <TextView
+                                android:id="@+id/text_my_carrier"
+                                style="@style/TextSmall"
+                                android:text="@string/carrier" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_my_battleship"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_my_battleship"
+                            style="@style/ShipIconTop"
+                            android:contentDescription="@string/battleship"
+                            android:src="@drawable/battleship" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_my_battleship_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_my_battleship_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/battleship_size" />
+
+                            <TextView
+                                android:id="@+id/text_my_battleship"
+                                style="@style/TextSmall"
+                                android:text="@string/battleship" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_my_ships_row_bottom"
+                    style="@style/ShipRowBottom">
+
+                    <LinearLayout
+                        android:id="@+id/layout_my_cruiser"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_my_cruiser"
+                            style="@style/ShipIcon"
+                            android:contentDescription="@string/cruiser"
+                            android:src="@drawable/cruiser" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_my_cruiser_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_my_cruiser_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/cruiser_size" />
+
+                            <TextView
+                                android:id="@+id/text_my_cruiser"
+                                style="@style/TextSmall"
+                                android:text="@string/cruiser" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_my_submarine"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_my_submarine"
+                            style="@style/ShipIcon"
+                            android:contentDescription="@string/submarine"
+                            android:src="@drawable/submarine" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_my_submarine_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_my_submarine_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/submarine_size" />
+
+                            <TextView
+                                android:id="@+id/text_my_submarine"
+                                style="@style/TextSmall"
+                                android:text="@string/submarine" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_my_destroyer"
+                        style="@style/Ship">
+
+                        <ImageView
+                            android:id="@+id/image_my_destroyer"
+                            style="@style/ShipIcon"
+                            android:contentDescription="@string/destroyer"
+                            android:src="@drawable/destroyer" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_my_destroyer_info"
+                            style="@style/ShipInfo">
+
+                            <TextView
+                                android:id="@+id/text_my_destroyer_size"
+                                style="@style/TextShipSize"
+                                android:text="@string/destroyer_size" />
+
+                            <TextView
+                                android:id="@+id/text_my_destroyer"
+                                style="@style/TextSmall"
+                                android:text="@string/destroyer" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

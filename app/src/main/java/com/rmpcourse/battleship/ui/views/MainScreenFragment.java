@@ -22,9 +22,16 @@ public class MainScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentMainScreenBinding.inflate(inflater, container, false);
-        binding.buttonScores.setOnClickListener(view -> {
+
+        binding.buttonLogin.setOnClickListener(view -> {
             NavDirections action = MainScreenFragmentDirections
-                    .actionMainScreenFragmentToScoresFragment();
+                    .actionMainScreenFragmentToLoginFragment();
+            Navigation.findNavController(view).navigate(action);
+        });
+
+        binding.buttonRegister.setOnClickListener(view -> {
+            NavDirections action = MainScreenFragmentDirections
+                    .actionMainScreenFragmentToRegisterFragment();
             Navigation.findNavController(view).navigate(action);
         });
 

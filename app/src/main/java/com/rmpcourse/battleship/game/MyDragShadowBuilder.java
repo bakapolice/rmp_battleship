@@ -1,4 +1,4 @@
-package com.rmpcourse.battleship.ui.game;
+package com.rmpcourse.battleship.game;
 
 import android.graphics.Point;
 import android.view.View;

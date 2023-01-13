@@ -20,13 +20,11 @@ import java.util.concurrent.Executors;
 public abstract class BattleshipRoomDatabase extends RoomDatabase
 {
 
-    /* TODO: read about abstract class */
     public abstract PlayerDao playerDao();
     public abstract ScoreDao scoreDao();
     public abstract LeaderboardDao leaderboardDao();
 
 
-    /* TODO: read about volatile */
     private static volatile BattleshipRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
@@ -34,7 +32,6 @@ public abstract class BattleshipRoomDatabase extends RoomDatabase
 
     static BattleshipRoomDatabase getDatabase(final Context context){
         if(INSTANCE == null) {
-            /* todo: read about synchronized and .class */
             synchronized (BattleshipRoomDatabase.class) {
                 if(INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),

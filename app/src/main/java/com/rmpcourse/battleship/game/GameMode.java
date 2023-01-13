@@ -1,4 +1,4 @@
-package com.rmpcourse.battleship.ui.game;
+package com.rmpcourse.battleship.game;
 
 public enum GameMode
 {
