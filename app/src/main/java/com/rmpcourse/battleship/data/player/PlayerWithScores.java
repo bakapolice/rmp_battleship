@@ -1,5 +1,6 @@
 package com.rmpcourse.battleship.data.player;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 

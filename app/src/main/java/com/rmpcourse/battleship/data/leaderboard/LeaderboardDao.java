@@ -25,6 +25,9 @@ public interface LeaderboardDao {
     @Query("select * from leaderboards where leaderboardId = :id")
     Leaderboard findById(int id);
 
-    @Query("select * from leaderboards")
+    @Query("select * from leaderboards where player_leaderboard_id = :id")
+    Leaderboard findByPlayerId(long id);
+
+    @Query("select * from leaderboards order by total_wins desc")
     LiveData<List<Leaderboard>> getAllLeaderboards();
 }

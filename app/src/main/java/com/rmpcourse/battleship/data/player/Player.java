@@ -7,8 +7,9 @@ import androidx.room.PrimaryKey;
 public class Player {
 
     @PrimaryKey(autoGenerate = true)
-    public int playerId;
+    public long playerId;
 
     public String username = "";
+    public String email = "";
     public String password = "";
 }

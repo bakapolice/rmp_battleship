@@ -3,16 +3,22 @@ package com.rmpcourse.battleship.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
 import com.rmpcourse.battleship.data.leaderboard.LeaderboardDao;
 import com.rmpcourse.battleship.data.player.Player;
+import com.rmpcourse.battleship.data.player.PlayerAndLeaderboard;
 import com.rmpcourse.battleship.data.player.PlayerDao;
 import com.rmpcourse.battleship.data.player.PlayerWithScores;
 import com.rmpcourse.battleship.data.score.Score;
 import com.rmpcourse.battleship.data.score.ScoreDao;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class DataRepository {
 
@@ -43,8 +49,18 @@ public class DataRepository {
      * Player
      */
 
-    public void insert(Player player){
-        BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mPlayerDao.insert(player));
+    public long insert(Player player){
+        //BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> id = mPlayerDao.insert(player));
+        Callable<Long> insertCallable = () -> mPlayerDao.insert(player);
+        long id = -1;
+        Future<Long> future = BattleshipRoomDatabase.databaseWriteExecutor.submit(insertCallable);
+        try {
+            id = future.get();
+        }
+        catch (InterruptedException | ExecutionException e){
+            e.printStackTrace();
+        }
+        return id;
     }
 
     public void update(Player player){
@@ -59,6 +75,33 @@ public class DataRepository {
         return mAllPlayers;
     }
 
+    public Player findPlayerById(long id) { return mPlayerDao.findById(id); }
+
+    public Player findPlayerByEmail(String email) { return mPlayerDao.findByEmail(email); }
+
+    public  Player findPlayerByUsernameAndPassword(String username, String password) {
+        return mPlayerDao.findByUsernameAndPassword(username, password);
+    }
+
+    public Player findPlayerByUsername(String username){
+        return mPlayerDao.findByUsername(username);
+    }
+
+    LiveData<List<PlayerWithScores>> getPlayersWithScores(){
+        return mPlayerDao.getPlayersWithScores();
+    }
+
+    public LiveData<PlayerWithScores> getPlayerWithScoresById(long id){
+        return mPlayerDao.getPlayerWithScoresById(id);
+    }
+
+    public LiveData<List<PlayerAndLeaderboard>> getPlayersAndLeaderboards(){
+        return mPlayerDao.getPlayersAndLeaderboards();
+    }
+
+    public PlayerAndLeaderboard getPlayerAndLeaderboardByPlayerId(long id){
+        return mPlayerDao.getPlayerAndLeaderboardByPlayerId(id);
+    }
 
     /***
      * Score
@@ -79,6 +122,8 @@ public class DataRepository {
     public LiveData<List<Score>> getAllScores(){
         return mAllScores;
     }
+
+    public Score findScoreById(int id) { return mScoreDao.findById(id); }
 
 
     /***
@@ -101,6 +146,8 @@ public class DataRepository {
         return mAllLeaderboards;
     }
 
+    public Leaderboard findLeaderboardById(int id) { return mLeaderboardDao.findById(id); }
 
+    public Leaderboard findLeaderboardByPlayerId(long id){ return mLeaderboardDao.findByPlayerId(id);}
     /* TODO: add async find by id and etc. */
 }

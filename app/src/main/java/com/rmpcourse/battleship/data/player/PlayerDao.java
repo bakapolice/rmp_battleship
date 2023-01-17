@@ -15,7 +15,7 @@ import java.util.List;
 public interface PlayerDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Player player);
+    long insert(Player player);
 
     @Update
     void update(Player player);
@@ -24,12 +24,19 @@ public interface PlayerDao {
     void delete(Player player);
 
     @Query("select * from players where playerId = :id")
-    Player findById(int id);
+    Player findById(long id);
 
-    /* TODO find by username and password */
+    @Query("select * from players where email = :email")
+    Player findByEmail(String email);
 
     @Query("select * from players")
     LiveData<List<Player>> getAllPlayers();
+
+    @Query("select * from players where username = :username and password = :password")
+    Player findByUsernameAndPassword(String username, String password);
+
+    @Query("select * from players where username = :username")
+    Player findByUsername(String username);
 
     @Transaction
     @Query("select * from players")
@@ -39,5 +46,13 @@ public interface PlayerDao {
 
     @Transaction
     @Query("select * from players where playerId = :id")
-    LiveData<List<PlayerWithScores>> getPlayerWithScoresById(int id);
+    LiveData<PlayerWithScores> getPlayerWithScoresById(long id);
+
+    @Transaction
+    @Query("select * from players")
+    public LiveData<List<PlayerAndLeaderboard>> getPlayersAndLeaderboards();
+
+    @Transaction
+    @Query("select * from players where playerId = :id")
+    public PlayerAndLeaderboard getPlayerAndLeaderboardByPlayerId(long id);
 }

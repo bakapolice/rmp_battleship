@@ -1,5 +1,6 @@
 package com.rmpcourse.battleship.ui.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +36,15 @@ public class MainScreenFragment extends Fragment {
             Navigation.findNavController(view).navigate(action);
         });
 
+        binding.buttonExit.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+            getActivity().finish();
+        });
+
         return binding.getRoot();
     }
+
 }

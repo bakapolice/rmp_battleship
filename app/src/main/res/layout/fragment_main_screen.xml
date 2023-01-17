@@ -3,27 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
+    style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.views.MainScreenFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Main Screen"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/battleship_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.40" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/buttonLogin"
+    <TextView
+        android:id="@+id/textView"
+        style="@style/TextLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:text="Please login to play the game!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        style="@style/ButtonLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +41,8 @@
 
     <Button
         android:id="@+id/buttonRegister"
-        android:layout_width="wrap_content"
+        style="@style/ButtonLight"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Register"
@@ -41,7 +52,8 @@
 
     <Button
         android:id="@+id/buttonExit"
-        android:layout_width="wrap_content"
+        style="@style/ButtonLight"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Exit"

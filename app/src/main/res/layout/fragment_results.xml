@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/resultsConstraintLayout"
+    style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.views.ResultsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageTrophy"
+        style="@style/Trophy"
+        android:layout_marginTop="258dp"
+        android:contentDescription="@string/trophy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/winnerTextView"
+        style="@style/TextLarge"
+        android:layout_marginTop="16dp"
+        android:text="@string/you_win"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageTrophy" />
+
+    <Button
+        android:id="@+id/buttonPlayAgain"
+        style="@style/ButtonBlue"
+        android:layout_marginTop="16dp"
+        android:text="@string/play_again"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winnerTextView" />
+
+    <Button
+        android:id="@+id/buttonReturnToMenu"
+        style="@style/ButtonBlueLast"
+        android:layout_marginTop="14dp"
+        android:text="@string/return_to_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPlayAgain" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

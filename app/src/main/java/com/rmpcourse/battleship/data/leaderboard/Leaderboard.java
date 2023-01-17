@@ -15,6 +15,9 @@ public class Leaderboard {
     @ColumnInfo(name = "player_username")
     public String playerUsername = "";
 
+    @ColumnInfo(name = "player_leaderboard_id")
+    public long playerLeaderboardId;
+
     @ColumnInfo(name = "total_wins")
     public int totalWins = 0;
 

@@ -4,6 +4,11 @@
         <item name="android:background">@color/colorBackground</item>
     </style>
 
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
     <style name="Screen">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -11,6 +16,10 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">10dp</item>
         <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="WaitingScreen" parent="Screen">
+        <item name="android:background">@color/colorShadow</item>
     </style>
 
     <style name="Image">
@@ -137,9 +146,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:layout_marginLeft">20dp</item>
-        <item name="android:layout_marginRight">20dp</item>
-        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginTop">16dp</item>
     </style>
 
     <style name="ButtonBlue" parent="@style/Button">

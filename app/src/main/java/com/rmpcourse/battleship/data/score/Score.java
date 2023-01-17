@@ -16,10 +16,13 @@ public class Score {
     public String targetUsername = "";
 
     @ColumnInfo(name = "player_score_id")
-    public int playerScoreId;
+    public long playerScoreId;
 
     public Long date = 0L;
 
     @ColumnInfo(name = "match_time")
-    public double matchTime = 0.0;
+    public int matchTime = 0;
+
+    @ColumnInfo(name = "match_result")
+    public String matchResult = "";
 }
