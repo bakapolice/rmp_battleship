@@ -4,14 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
@@ -20,9 +12,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.rmpcourse.battleship.R;
 import com.rmpcourse.battleship.databinding.FragmentInGameBinding;
@@ -44,6 +41,9 @@ public class InGameFragment extends Fragment {
     private FragmentInGameBinding binding;
     private PlayerViewModel mPlayerViewModel;
     private long playerId = -1, targetPlayerId = -1;
+
+    private int timeRemaining = -1;
+    private final int waiting = 5;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +85,7 @@ public class InGameFragment extends Fragment {
             hidePopups();
         });
 
+        // Кнопка поворота кораблей
         binding.buttonRotateShip.setOnClickListener(view -> {
             if (myDrawableBoardPlacing.getActiveShip() != null) {
                 myDrawableBoardPlacing.getActiveShip().rotate();
@@ -120,8 +121,6 @@ public class InGameFragment extends Fragment {
      * User Interface
      */
 
-    private int currentScreen = -1;
-
     private static final int[] SCREENS = {
             /* TODO: сделать надпись "передайте другому игроку" */
             R.id.screen_please_wait,
@@ -133,8 +132,6 @@ public class InGameFragment extends Fragment {
             R.id.popup_quit_game};
 
     private void switchToScreen(int screen) {
-        currentScreen = screen;
-
         for (int s : SCREENS) {
             if (s == screen) {
                 binding.getRoot().findViewById(s).setVisibility(View.VISIBLE);
@@ -144,7 +141,9 @@ public class InGameFragment extends Fragment {
         }
     }
 
-    private void showWaitingScreen(){
+    private void showWaitingScreen() {
+        timeRemaining = waiting;
+        binding.textTimer.setText(String.valueOf(timeRemaining));
         binding.screenPleaseWait.setVisibility(View.VISIBLE);
     }
 
@@ -182,22 +181,13 @@ public class InGameFragment extends Fragment {
      * Button Click Events
      */
     public void buttonPlaceShipsRandomly(Board board) {
-        //Log.d(TAG, "Place Ships Randomly Button Clicked");
         board.placeShipsRandom();
         myDrawableBoardPlacing.setNoActiveShip();
         myDrawableBoardPlacing.colorShips();
     }
 
     public void buttonConfirmShips(Board board) {
-        //Log.d(TAG, "Confirm Ships Button Clicked");
         if (board.isValidBoard()) {
-
-
-            /* TODO: Сделать отдельный runnable Для ожидания между расставлениями кораблей */
-            switchToScreen(R.id.screen_please_wait);
-            timeRemaining = 5;
-            handler.postDelayed(timer, 0);
-
             board.confirmShipLocations();
             if (board == myBoard) {
                 myBoard.setShipsPlaced(true);
@@ -247,18 +237,13 @@ public class InGameFragment extends Fragment {
     /**
      * Handler and Runnables
      */
-
-    private int timeRemaining = 5;
     private final Handler handler = new Handler();
 
     // Таймер
-    private final Runnable timer = new Runnable()
-    {
+    private final Runnable timer = new Runnable() {
         @Override
-        public void run()
-        {
-            if (timeRemaining < 0)
-            {
+        public void run() {
+            if (timeRemaining < 0) {
                 handler.removeCallbacks(this);
                 return;
             }
@@ -269,20 +254,16 @@ public class InGameFragment extends Fragment {
         }
     };
 
-    private void timerTick()
-    {
-        if (timeRemaining > 0)
-        {
+    private void timerTick() {
+        if (timeRemaining > 0) {
             binding.textTimer.setText(String.valueOf(timeRemaining));
-        }
-        else if (timeRemaining == 0)
-        {
+        } else if (timeRemaining == 0) {
             timeRemaining = -1;
             handler.removeCallbacks(timer);
         }
     }
 
-    /* TODO: задержка при переключении экранов игроков, доделать, добавить надпись "Передайте телефон другому игроку" */
+    /* TODO: задержка при переключении экранов игроков */
     final Runnable delayTransition = new Runnable() {
         @Override
         public void run() {
@@ -296,7 +277,6 @@ public class InGameFragment extends Fragment {
         }
     };
 
-
     /**
      * Game Logic
      */
@@ -309,9 +289,7 @@ public class InGameFragment extends Fragment {
     private boolean myTurn = false;
     private boolean canTarget = false;
 
-    private Date timeStart;
-    private Date timeEnd;
-
+    private Date timeStart, timeEnd;
 
     // Передавать в параметры чью доску надо отрисовать
     private void displayDrawableBoardPlacing(Board board) {
@@ -458,6 +436,7 @@ public class InGameFragment extends Fragment {
         // Доска второго игрока
         targetBoard = new Board();
 
+        timeRemaining = waiting;
         timeStart = new Date();
         binding.textPlaceShips.setText(getString(R.string.place_ships, mPlayerViewModel.getPlayer().username));
         displayDrawableBoardPlacing(myBoard);
@@ -466,7 +445,6 @@ public class InGameFragment extends Fragment {
     /**
      * canTarget == true - я могу стрелять
      * canTarget == false - может стрелять противник
-     * canTarget = false;
      */
     /* TODO: THIS IS GAME LOGIC */
     private void targetCoordinate(DrawableSquare square, DrawableBoard drawableBoard, Board board) {
@@ -490,8 +468,6 @@ public class InGameFragment extends Fragment {
                 if (board == targetBoard) myTurn = false;
                 else myTurn = true;
 
-
-                timeRemaining = 5;
                 showWaitingScreen();
                 handler.postDelayed(timer, 0);
                 handler.postDelayed(delayTransition, 5000);
@@ -502,7 +478,6 @@ public class InGameFragment extends Fragment {
             square.setImage(R.drawable.miss);
             board.setStatus(x, y, BoardStatus.MISS);
 
-            timeRemaining = 5;
             showWaitingScreen();
             handler.postDelayed(timer, 0);
             handler.postDelayed(delayTransition, 5000);

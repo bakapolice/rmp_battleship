@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
 import com.rmpcourse.battleship.databinding.ItemLeaderboardBinding;
 
-public class LeaderboardListAdapter extends ListAdapter<Leaderboard,LeaderboardViewHolder> {
+public class LeaderboardListAdapter extends ListAdapter<Leaderboard, LeaderboardViewHolder> {
     public LeaderboardListAdapter(@NonNull DiffUtil.ItemCallback<Leaderboard> diffCallback) {
         super(diffCallback);
     }

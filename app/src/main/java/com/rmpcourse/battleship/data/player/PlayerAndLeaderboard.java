@@ -6,7 +6,8 @@ import androidx.room.Relation;
 import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
 
 public class PlayerAndLeaderboard {
-    @Embedded public Player player;
+    @Embedded
+    public Player player;
     @Relation(
             parentColumn = "playerId",
             entityColumn = "player_leaderboard_id"

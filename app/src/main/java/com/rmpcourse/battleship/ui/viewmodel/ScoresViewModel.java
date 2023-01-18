@@ -16,7 +16,8 @@ public class ScoresViewModel extends AndroidViewModel {
     private final LiveData<List<Score>> mAllScores;
 
     /* TODO: add player with scores to viewmodel */
-    private LiveData<PlayerWithScores> mPlayerScores = new LiveData<PlayerWithScores>() {};
+    private LiveData<PlayerWithScores> mPlayerScores = new LiveData<PlayerWithScores>() {
+    };
 
     public ScoresViewModel(Application application) {
         super(application);
@@ -24,16 +25,27 @@ public class ScoresViewModel extends AndroidViewModel {
         mAllScores = mRepository.getAllScores();
     }
 
-    public LiveData<List<Score>> getAllScores() { return mAllScores; }
-    public void insert(Score score) { mRepository.insert(score); }
-    public void update(Score score) { mRepository.update(score); }
-    public void delete(Score score) { mRepository.delete(score); }
+    public LiveData<List<Score>> getAllScores() {
+        return mAllScores;
+    }
 
-    public void findPlayerWithScoresById(long id){
-        if(id!=-1){
+    public void insert(Score score) {
+        mRepository.insert(score);
+    }
+
+    public void update(Score score) {
+        mRepository.update(score);
+    }
+
+    public void delete(Score score) {
+        mRepository.delete(score);
+    }
+
+    public void findPlayerWithScoresById(long id) {
+        if (id != -1) {
             mPlayerScores = mRepository.getPlayerWithScoresById(id);
-        }
-        else mPlayerScores = new LiveData<PlayerWithScores>() {};
+        } else mPlayerScores = new LiveData<PlayerWithScores>() {
+        };
     }
 
     public LiveData<PlayerWithScores> getPlayerWithScores() {

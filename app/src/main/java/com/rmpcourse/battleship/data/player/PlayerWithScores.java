@@ -1,6 +1,5 @@
 package com.rmpcourse.battleship.data.player;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
@@ -11,7 +10,8 @@ import java.util.List;
 /* TODO: RENAME COLUMNS PROPERLY */
 
 public class PlayerWithScores {
-    @Embedded public Player player;
+    @Embedded
+    public Player player;
     @Relation(
             parentColumn = "playerId",
             entityColumn = "player_score_id"

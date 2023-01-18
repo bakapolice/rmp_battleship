@@ -9,7 +9,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class LeaderboardItemDivider extends RecyclerView.ItemDecoration {
@@ -22,7 +21,7 @@ public class LeaderboardItemDivider extends RecyclerView.ItemDecoration {
      * Конструктор загружает дефолтный разделитель
      */
     @SuppressLint({"ResourceType", "Recycle"})
-    public LeaderboardItemDivider(Context context){
+    public LeaderboardItemDivider(Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         divider = styledAttributes.getDrawable(0);
         styledAttributes.recycle();
@@ -31,7 +30,7 @@ public class LeaderboardItemDivider extends RecyclerView.ItemDecoration {
     /**
      * Конструктор загружает кастомный разделитель
      */
-    public LeaderboardItemDivider(Context context, int resID){
+    public LeaderboardItemDivider(Context context, int resID) {
         divider = ContextCompat.getDrawable(context, resID);
     }
 

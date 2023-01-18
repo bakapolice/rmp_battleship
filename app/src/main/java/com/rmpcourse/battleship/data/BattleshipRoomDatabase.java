@@ -17,11 +17,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Player.class, Score.class, Leaderboard.class}, version = 1, exportSchema = false)
-public abstract class BattleshipRoomDatabase extends RoomDatabase
-{
+public abstract class BattleshipRoomDatabase extends RoomDatabase {
 
     public abstract PlayerDao playerDao();
+
     public abstract ScoreDao scoreDao();
+
     public abstract LeaderboardDao leaderboardDao();
 
 
@@ -30,12 +31,12 @@ public abstract class BattleshipRoomDatabase extends RoomDatabase
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static BattleshipRoomDatabase getDatabase(final Context context){
-        if(INSTANCE == null) {
+    static BattleshipRoomDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
             synchronized (BattleshipRoomDatabase.class) {
-                if(INSTANCE == null){
+                if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            BattleshipRoomDatabase.class, "battleship_database")
+                                    BattleshipRoomDatabase.class, "battleship_database")
                             .allowMainThreadQueries()
                             .build();
                 }

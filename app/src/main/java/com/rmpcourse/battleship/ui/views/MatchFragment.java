@@ -1,18 +1,16 @@
 package com.rmpcourse.battleship.ui.views;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.rmpcourse.battleship.R;
 import com.rmpcourse.battleship.data.player.PlayerAndLeaderboard;
 import com.rmpcourse.battleship.databinding.FragmentMatchBinding;
 import com.rmpcourse.battleship.ui.viewmodel.LeaderboardViewModel;
@@ -23,6 +21,7 @@ public class MatchFragment extends Fragment {
     private PlayerViewModel mPlayerViewModel;
     private LeaderboardViewModel mLeaderboardViewModel;
     private boolean dataReady = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,10 +55,10 @@ public class MatchFragment extends Fragment {
                 dataReady = false;
             }
 
-            if(!dataReady) return;
+            if (!dataReady) return;
 
-            if(mPlayerViewModel.findTargetPlayerByUsername(targetUsername)){
-                if(mPlayerViewModel.getTargetPlayer().playerId == mPlayerViewModel.getPlayer().playerId){
+            if (mPlayerViewModel.findTargetPlayerByUsername(targetUsername)) {
+                if (mPlayerViewModel.getTargetPlayer().playerId == mPlayerViewModel.getPlayer().playerId) {
                     Toast toast = Toast.makeText(getContext(),
                             "Вы не можете играть сами с собой!",
                             Toast.LENGTH_LONG);
@@ -72,8 +71,7 @@ public class MatchFragment extends Fragment {
                 binding.targetPlayerTextView.setText(leaderboard.player.username + ". Wins: " + leaderboard.leaderboard.totalWins + ". Losses: " +
                         leaderboard.leaderboard.totalLosses);
                 binding.buttonStartGame.setEnabled(true);
-            }
-            else {
+            } else {
                 binding.buttonStartGame.setEnabled(false);
                 Toast toast = Toast.makeText(getContext(),
                         "Пользователь с таким именем не зарегистрирован!",

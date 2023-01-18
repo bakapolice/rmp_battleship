@@ -16,21 +16,41 @@ public class LeaderboardViewModel extends AndroidViewModel {
     private DataRepository mRepository;
     private final LiveData<List<Leaderboard>> mAllLeaderboards;
 
-    public LeaderboardViewModel(Application application){
+    public LeaderboardViewModel(Application application) {
         super(application);
         mRepository = new DataRepository(application);
         mAllLeaderboards = mRepository.getAllLeaderboards();
     }
 
-    public LiveData<List<Leaderboard>> getAllLeaderboards() { return mAllLeaderboards; }
-    public void insert(Leaderboard leaderboard) { mRepository.insert(leaderboard);}
-    public void update(Leaderboard leaderboard) { mRepository.update(leaderboard); }
-    public void delete(Leaderboard leaderboard) { mRepository.delete(leaderboard); }
-    public LiveData<List<PlayerAndLeaderboard>> getPlayersAndLeaderboards() { return mRepository.getPlayersAndLeaderboards(); }
-    public Leaderboard findLeaderboardById(int id) { return mRepository.findLeaderboardById(id);}
-    public Leaderboard findLeaderboardByPlayerId(long id) { return mRepository.findLeaderboardByPlayerId(id);}
+    public LiveData<List<Leaderboard>> getAllLeaderboards() {
+        return mAllLeaderboards;
+    }
 
-    public PlayerAndLeaderboard getPlayerAndLeaderboardByPlayerId(long id){
+    public void insert(Leaderboard leaderboard) {
+        mRepository.insert(leaderboard);
+    }
+
+    public void update(Leaderboard leaderboard) {
+        mRepository.update(leaderboard);
+    }
+
+    public void delete(Leaderboard leaderboard) {
+        mRepository.delete(leaderboard);
+    }
+
+    public LiveData<List<PlayerAndLeaderboard>> getPlayersAndLeaderboards() {
+        return mRepository.getPlayersAndLeaderboards();
+    }
+
+    public Leaderboard findLeaderboardById(int id) {
+        return mRepository.findLeaderboardById(id);
+    }
+
+    public Leaderboard findLeaderboardByPlayerId(long id) {
+        return mRepository.findLeaderboardByPlayerId(id);
+    }
+
+    public PlayerAndLeaderboard getPlayerAndLeaderboardByPlayerId(long id) {
         return mRepository.getPlayerAndLeaderboardByPlayerId(id);
     }
 }

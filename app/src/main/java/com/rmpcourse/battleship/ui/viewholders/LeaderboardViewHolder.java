@@ -1,8 +1,5 @@
 package com.rmpcourse.battleship.ui.viewholders;
 
-import android.view.View;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
@@ -17,7 +14,7 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
         this.binding = b;
     }
 
-    public void bind(Leaderboard leaderboard){
+    public void bind(Leaderboard leaderboard) {
         binding.textViewPlayerUsername.setText(leaderboard.playerUsername);
         binding.textViewWin.setText("Total wins: " + leaderboard.totalWins);
         binding.textViewLoss.setText("Total losses: " + leaderboard.totalLosses);

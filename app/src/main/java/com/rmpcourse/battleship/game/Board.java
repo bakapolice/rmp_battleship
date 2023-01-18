@@ -1,28 +1,22 @@
 package com.rmpcourse.battleship.game;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Board
-{
+public class Board {
     // Матрица, в каждой ячейке которой находится текущий статус этой ячейки
     private BoardStatus[][] statuses;
     private List<Ship> ships;
     private Random random = new Random();
     private boolean shipsPlaced;
 
-    public Board()
-    {
+    public Board() {
         this.statuses = new BoardStatus[BoardSize.COLUMNS][BoardSize.ROWS];
 
         // Заполняем все строки матрицы статусом "Спряран_Пусто"
-        for (BoardStatus[] row : statuses)
-        {
+        for (BoardStatus[] row : statuses) {
             Arrays.fill(row, BoardStatus.HIDDEN_EMPTY);
         }
 
@@ -38,41 +32,31 @@ public class Board
         shipsPlaced = false;
     }
 
-    public BoardStatus getStatus(int x, int y)
-    {
+    public BoardStatus getStatus(int x, int y) {
         return statuses[x][y];
     }
 
-    public void setStatus(int x, int y, BoardStatus status)
-    {
+    public void setStatus(int x, int y, BoardStatus status) {
         statuses[x][y] = status;
     }
 
-    public boolean isStatusHidden(int x, int y)
-    {
-        if (statuses[x][y] == BoardStatus.HIDDEN_EMPTY || statuses[x][y] == BoardStatus.HIDDEN_SHIP)
-        {
+    public boolean isStatusHidden(int x, int y) {
+        if (statuses[x][y] == BoardStatus.HIDDEN_EMPTY || statuses[x][y] == BoardStatus.HIDDEN_SHIP) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    public List<Ship> getShips()
-    {
+    public List<Ship> getShips() {
         return ships;
     }
 
-    public int getSmallestRemainingShip()
-    {
+    public int getSmallestRemainingShip() {
         int smallest = 5;
 
-        for (Ship ship : ships)
-        {
-            if (ship.isAlive() && ship.getLength() < smallest)
-            {
+        for (Ship ship : ships) {
+            if (ship.isAlive() && ship.getLength() < smallest) {
                 smallest = ship.getLength();
             }
         }
@@ -80,14 +64,11 @@ public class Board
         return smallest;
     }
 
-    public int getLongestRemainingShip()
-    {
+    public int getLongestRemainingShip() {
         int longest = 2;
 
-        for (Ship ship : ships)
-        {
-            if (ship.isAlive() && ship.getLength() > longest)
-            {
+        for (Ship ship : ships) {
+            if (ship.isAlive() && ship.getLength() > longest) {
                 longest = ship.getLength();
             }
         }
@@ -95,59 +76,45 @@ public class Board
         return longest;
     }
 
-    public boolean areShipsPlaced()
-    {
+    public boolean areShipsPlaced() {
         return shipsPlaced;
     }
 
-    public void setShipsPlaced(boolean shipsPlaced)
-    {
+    public void setShipsPlaced(boolean shipsPlaced) {
         this.shipsPlaced = shipsPlaced;
     }
 
-    public void placeShipsRandom()
-    {
-        for (Ship ship : ships)
-        {
+    public void placeShipsRandom() {
+        for (Ship ship : ships) {
             boolean valid = false;
 
-            while(!valid)
-            {
+            while (!valid) {
                 int direction = random.nextInt(2);
 
-                if (direction == 0)
-                {
+                if (direction == 0) {
                     int x = random.nextInt(BoardSize.COLUMNS - ship.getType().getLength());
                     int y = random.nextInt(BoardSize.ROWS);
                     ship.setDirection(ShipDirection.HORIZONTAL);
                     ship.setCoordinate(new Coordinate(x, y));
-                }
-                else if (direction == 1)
-                {
+                } else if (direction == 1) {
                     int x = random.nextInt(BoardSize.COLUMNS);
                     int y = random.nextInt(BoardSize.ROWS - ship.getType().getLength());
                     ship.setDirection(ShipDirection.VERTICAL);
                     ship.setCoordinate(new Coordinate(x, y));
                 }
 
-                if (!isCollidingWithAny(ship))
-                {
+                if (!isCollidingWithAny(ship)) {
                     valid = true;
                 }
             }
         }
     }
 
-    private boolean isColliding(Ship ship1, Ship ship2)
-    {
-        if (ship1 != ship2)
-        {
-            for (Coordinate coordinate : ship1.getListCoordinates())
-            {
-                for (Coordinate coordinate2 : ship2.getListCoordinates())
-                {
-                    if (coordinate.equals(coordinate2))
-                    {
+    private boolean isColliding(Ship ship1, Ship ship2) {
+        if (ship1 != ship2) {
+            for (Coordinate coordinate : ship1.getListCoordinates()) {
+                for (Coordinate coordinate2 : ship2.getListCoordinates()) {
+                    if (coordinate.equals(coordinate2)) {
                         return true;
                     }
                 }
@@ -157,12 +124,9 @@ public class Board
         return false;
     }
 
-    public boolean isCollidingWithAny(Ship ship)
-    {
-        for (Ship ship2 : ships)
-        {
-            if (isColliding(ship, ship2))
-            {
+    public boolean isCollidingWithAny(Ship ship) {
+        for (Ship ship2 : ships) {
+            if (isColliding(ship, ship2)) {
                 return true;
             }
         }
@@ -170,12 +134,9 @@ public class Board
         return false;
     }
 
-    public boolean isValidBoard()
-    {
-        for (Ship ship : ships)
-        {
-            if (isCollidingWithAny(ship))
-            {
+    public boolean isValidBoard() {
+        for (Ship ship : ships) {
+            if (isCollidingWithAny(ship)) {
                 return false;
             }
         }
@@ -183,14 +144,10 @@ public class Board
         return true;
     }
 
-    public void confirmShipLocations()
-    {
-        if (isValidBoard())
-        {
-            for (Ship ship : ships)
-            {
-                for (Coordinate coordinate : ship.getListCoordinates())
-                {
+    public void confirmShipLocations() {
+        if (isValidBoard()) {
+            for (Ship ship : ships) {
+                for (Coordinate coordinate : ship.getListCoordinates()) {
                     int x = coordinate.getX();
                     int y = coordinate.getY();
 
@@ -200,26 +157,21 @@ public class Board
         }
     }
 
-    public Ship shipToSink()
-    {
-        for (Ship ship : ships)
-        {
+    public Ship shipToSink() {
+        for (Ship ship : ships) {
             boolean alive = false;
 
-            for (Coordinate coordinate : ship.getListCoordinates())
-            {
+            for (Coordinate coordinate : ship.getListCoordinates()) {
                 int x = coordinate.getX();
                 int y = coordinate.getY();
 
-                if (statuses[x][y] != BoardStatus.HIT)
-                {
+                if (statuses[x][y] != BoardStatus.HIT) {
                     alive = true;
                     break;
                 }
             }
 
-            if (!alive)
-            {
+            if (!alive) {
                 return ship;
             }
         }
@@ -227,14 +179,11 @@ public class Board
         return null;
     }
 
-    public void sinkShips()
-    {
-        if (shipToSink() != null)
-        {
+    public void sinkShips() {
+        if (shipToSink() != null) {
             Ship ship = shipToSink();
 
-            for (Coordinate coordinate : ship.getListCoordinates())
-            {
+            for (Coordinate coordinate : ship.getListCoordinates()) {
                 int x = coordinate.getX();
                 int y = coordinate.getY();
 
@@ -244,12 +193,9 @@ public class Board
         }
     }
 
-    public boolean allShipsSunk()
-    {
-        for (Ship ship : ships)
-        {
-            if (ship.isAlive())
-            {
+    public boolean allShipsSunk() {
+        for (Ship ship : ships) {
+            if (ship.isAlive()) {
                 return false;
             }
         }
@@ -259,8 +205,7 @@ public class Board
 }
 
 
-enum ShipDirection
-{
+enum ShipDirection {
     HORIZONTAL, VERTICAL
 }
 
