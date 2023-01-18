@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.rmpcourse.battleship.R;
 import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
 import com.rmpcourse.battleship.data.player.Player;
 import com.rmpcourse.battleship.databinding.FragmentRegisterBinding;
@@ -28,7 +30,7 @@ public class RegisterFragment extends Fragment {
     private boolean dataReady = true;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
@@ -36,17 +38,11 @@ public class RegisterFragment extends Fragment {
         mLeaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
 
-        binding.usernameEditText.setOnFocusChangeListener((view, b) -> {
-            binding.usernameInputLayout.setError(null);
-        });
+        binding.usernameEditText.setOnFocusChangeListener((view, b) -> binding.usernameInputLayout.setError(null));
 
-        binding.emailEditText.setOnFocusChangeListener(((view, b) -> {
-            binding.emailInputLayout.setError(null);
-        }));
+        binding.emailEditText.setOnFocusChangeListener(((view, b) -> binding.emailInputLayout.setError(null)));
 
-        binding.passwordEditText.setOnFocusChangeListener((view, b) -> {
-            binding.passwordInputLayout.setError(null);
-        });
+        binding.passwordEditText.setOnFocusChangeListener((view, b) -> binding.passwordInputLayout.setError(null));
 
         binding.buttonSignUp.setOnClickListener(view -> {
             binding.usernameEditText.clearFocus();
@@ -59,16 +55,14 @@ public class RegisterFragment extends Fragment {
             String password = binding.passwordEditText.getText().toString();
             dataReady = true;
 
-            /* TODO: заменить строковыми ресурсами */
-
             /**
              * Проверка имени пользователя
              */
             if (username.equals("")) {
-                binding.usernameInputLayout.setError("Can't be empty!");
+                binding.usernameInputLayout.setError(getString(R.string.empty_field_error));
                 dataReady = false;
             } else if (username.length() < 2) {
-                binding.usernameInputLayout.setError("Min 2 characters!");
+                binding.usernameInputLayout.setError(getString(R.string.min_length_username_field_error));
                 dataReady = false;
             }
 
@@ -76,10 +70,10 @@ public class RegisterFragment extends Fragment {
              * Проверка почты
              */
             if (email.equals("")) {
-                binding.emailInputLayout.setError("Can't be empty!");
+                binding.emailInputLayout.setError(getString(R.string.empty_field_error));
                 dataReady = false;
             } else if (!validate(email)) {
-                binding.emailInputLayout.setError("Invalid email address!");
+                binding.emailInputLayout.setError(getString(R.string.invalid_email_error));
                 dataReady = false;
             }
 
@@ -87,10 +81,10 @@ public class RegisterFragment extends Fragment {
              * Проверка пароля
              */
             if (password.equals("")) {
-                binding.passwordInputLayout.setError("Can't be empty!");
+                binding.passwordInputLayout.setError(getString(R.string.empty_field_error));
                 dataReady = false;
             } else if (password.length() < 6) {
-                binding.passwordInputLayout.setError("Min 6 characters!");
+                binding.passwordInputLayout.setError(getString(R.string.min_length_password_field_error));
                 dataReady = false;
             }
 
@@ -113,17 +107,14 @@ public class RegisterFragment extends Fragment {
                         .actionRegisterFragmentToMainScreenFragment();
                 Navigation.findNavController(view).navigate(action);
 
-                /* TODO: добавить строковый ресурс */
                 Toast toast = Toast.makeText(getContext(),
-                        "Пользователь успешно зарегистрирован!",
+                        getString(R.string.register_success),
                         Toast.LENGTH_LONG);
                 toast.show();
 
             } else {
-
-                /* TODO: добавить строковый ресурс */
                 Toast toast = Toast.makeText(getContext(),
-                        "Пользователь с таким именем уже существует!",
+                        getString(R.string.user_exists),
                         Toast.LENGTH_LONG);
                 toast.show();
             }

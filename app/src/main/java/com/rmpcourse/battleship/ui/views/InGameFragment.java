@@ -50,7 +50,7 @@ public class InGameFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requireActivity().getOnBackPressedDispatcher()
-                .addCallback(new OnBackPressedCallback(true) {
+                .addCallback(new OnBackPressedCallback(false) {
                     @Override
                     public void handleOnBackPressed() {
                         confirmQuit();
@@ -222,7 +222,7 @@ public class InGameFragment extends Fragment {
         builder.setTitle(R.string.error_title);
         builder.setMessage(error);
 
-        builder.setNeutralButton("OK", null);
+        builder.setNeutralButton(getString(R.string.kk), null);
         builder.show();
     }
 

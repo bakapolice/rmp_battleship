@@ -13,7 +13,6 @@
     <color name="colorAccent">#3C64E6</color>
     <color name="colorWhite">#E5E5E5</color>
     <color name="colorShadow">#D8000000</color>
-    <!--<color name="colorShadow">#AA000000</color> -->
     <!-- Dark Theme -->
 
     <color name="colorBackground">#1B1D2B</color>
@@ -57,7 +56,5 @@
     <color name="colorLightTargetInner">#FFFFFF</color>
     <color name="colorLightShip">#90ABED</color>
     <color name="colorLightCollision">#F43333</color>
-
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
 
 </resources>

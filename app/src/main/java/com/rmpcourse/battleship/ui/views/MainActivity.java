@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         hideSystemUI();
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(0);
         }
-
 //        ScoresViewModel scoresViewModel = new ViewModelProvider(this)
 //                .get(ScoresViewModel.class);
 //

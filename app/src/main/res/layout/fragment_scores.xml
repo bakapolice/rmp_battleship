@@ -6,6 +6,7 @@
     style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="@dimen/dim_default_margin"
     tools:context=".ui.views.ScoresFragment">
 
     <androidx.recyclerview.widget.RecyclerView

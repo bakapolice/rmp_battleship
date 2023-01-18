@@ -6,13 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.rmpcourse.battleship.R;
 import com.rmpcourse.battleship.databinding.FragmentLoginBinding;
 import com.rmpcourse.battleship.ui.viewmodel.PlayerViewModel;
+
+import java.util.Objects;
 
 public class LoginFragment extends Fragment {
 
@@ -22,19 +26,15 @@ public class LoginFragment extends Fragment {
     private boolean dataReady = true;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
-        binding.usernameEditText.setOnFocusChangeListener((view, b) -> {
-            binding.usernameInputLayout.setError(null);
-        });
+        binding.usernameEditText.setOnFocusChangeListener((view, b) -> binding.usernameInputLayout.setError(null));
 
-        binding.passwordEditText.setOnFocusChangeListener((view, b) -> {
-            binding.passwordInputLayout.setError(null);
-        });
+        binding.passwordEditText.setOnFocusChangeListener((view, b) -> binding.passwordInputLayout.setError(null));
 
         binding.buttonSignIn.setOnClickListener(view -> {
             binding.usernameInputLayout.clearFocus();
@@ -44,16 +44,14 @@ public class LoginFragment extends Fragment {
             String username = binding.usernameEditText.getText().toString();
             String password = binding.passwordEditText.getText().toString();
 
-            /* TODO: заменить строковыми ресурсами */
-
             /**
              * Проверка имени пользователя
              */
             if (username.equals("")) {
-                binding.usernameInputLayout.setError("Can't be empty!");
+                binding.usernameInputLayout.setError(getString(R.string.empty_field_error));
                 dataReady = false;
             } else if (username.length() < 2) {
-                binding.usernameInputLayout.setError("Min 2 characters!");
+                binding.usernameInputLayout.setError(getString(R.string.min_length_username_field_error));
                 dataReady = false;
             }
 
@@ -61,22 +59,30 @@ public class LoginFragment extends Fragment {
              * Проверка пароля
              */
             if (password.equals("")) {
-                binding.passwordInputLayout.setError("Can't be empty!");
+                binding.passwordInputLayout.setError(getString(R.string.empty_field_error));
                 dataReady = false;
             } else if (password.length() < 6) {
-                binding.passwordInputLayout.setError("Min 6 characters!");
+                binding.passwordInputLayout.setError(getString(R.string.min_length_password_field_error));
                 dataReady = false;
             }
 
             if (!dataReady) return;
 
-            if (isPlayerExists(username, password)) {
-                NavDirections action = LoginFragmentDirections
-                        .actionLoginFragmentToStartFragment(mPlayerViewModel.getPlayer().playerId);
-                Navigation.findNavController(view).navigate(action);
+            if (isPlayerExists(username)) {
+                if(isPasswordMatching(password)){
+                    NavDirections action = LoginFragmentDirections
+                            .actionLoginFragmentToStartFragment(mPlayerViewModel.getPlayer().playerId);
+                    Navigation.findNavController(view).navigate(action);
+                }
+                else {
+                    Toast toast = Toast.makeText(getContext(),
+                            getString(R.string.incorrect_password),
+                            Toast.LENGTH_LONG);
+                    toast.show();
+                }
             } else {
                 Toast toast = Toast.makeText(getContext(),
-                        "Пользователь с таким именем не зарегистрирован!",
+                        getString(R.string.user_not_registered),
                         Toast.LENGTH_LONG);
                 toast.show();
             }
@@ -86,7 +92,11 @@ public class LoginFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private boolean isPlayerExists(String username, String password) {
-        return mPlayerViewModel.findPlayerByUsernameAndPassword(username, password);
+    private boolean isPlayerExists(String username) {
+        return mPlayerViewModel.findPlayerByUsername(username);
+    }
+
+    private boolean isPasswordMatching(String password){
+        return Objects.equals(mPlayerViewModel.getPlayer().password, password);
     }
 }

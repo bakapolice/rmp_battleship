@@ -70,16 +70,16 @@ public class ResultsFragment extends Fragment {
             binding.winnerTextView.setText(getString(R.string.you_win));
             binding.looserTextView.setText(getString(R.string.other_player_lose, mPlayerViewModel.getTargetPlayer().username));
 
-            playerScore.matchResult = "WIN";
-            targetScore.matchResult = "LOSS";
+            playerScore.matchResult = getString(R.string.win);
+            targetScore.matchResult = getString(R.string.loss);
 
             playerLeaderboard.totalWins = playerLeaderboard.totalWins + 1;
             targetLeaderboard.totalLosses = targetLeaderboard.totalLosses + 1;
 
         } else {
 
-            playerScore.matchResult = "LOSS";
-            targetScore.matchResult = "WIN";
+            playerScore.matchResult = getString(R.string.loss);
+            targetScore.matchResult = getString(R.string.win);
 
             //binding.imageTrophy.setVisibility(View.GONE);
             binding.winnerTextView.setText(getString(R.string.you_lose));

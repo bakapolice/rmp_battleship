@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -22,8 +24,6 @@ public class StartFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        /* TODO: запретить перемещаться на предыдущий экран регистрации или авторизации в навграфе*/
 
         binding = FragmentStartBinding.inflate(inflater, container, false);
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
@@ -56,10 +56,6 @@ public class StartFragment extends Fragment {
             NavDirections action = StartFragmentDirections.actionGlobalMainScreenFragment();
             Navigation.findNavController(view).navigate(action);
         });
-
-        /*TODO: make global actions to start framgent from ingame and results fragment */
-        /*TODO: popups to*/
-
 
         // Inflate the layout for this fragment
         return binding.getRoot();

@@ -9,6 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dim_default_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +39,13 @@
             <TextView
                 android:id="@+id/text_place_ships"
                 style="@style/TextLargeAccent"
+                android:gravity="center_horizontal"
                 android:text="@string/place_ships" />
 
             <TextView
                 android:id="@+id/text_place_ships_instructions"
                 style="@style/TextInstructions"
+                android:gravity="center_horizontal"
                 android:text="@string/place_ships_instructions" />
 
             <LinearLayout
@@ -76,11 +79,13 @@
             <TextView
                 android:id="@+id/text_my_turn"
                 style="@style/TextLargeAccent"
+                android:gravity="center_horizontal"
                 android:text="@string/player_turn" />
 
             <TextView
                 android:id="@+id/text_target_ships"
                 style="@style/TextInstructions"
+                android:gravity="center_horizontal"
                 android:text="@string/target_ships" />
 
             <LinearLayout
@@ -248,11 +253,13 @@
             <TextView
                 android:id="@+id/text_other_player_turn"
                 style="@style/TextLargeAccent"
+                android:gravity="center_horizontal"
                 android:text="@string/player_turn" />
 
             <TextView
                 android:id="@+id/textTargetShip"
                 style="@style/TextInstructions"
+                android:gravity="center_horizontal"
                 android:text="@string/target_ships" />
 
             <LinearLayout

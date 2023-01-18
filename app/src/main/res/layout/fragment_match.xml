@@ -6,6 +6,7 @@
     style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="@dimen/dim_default_margin"
     tools:context=".ui.views.MatchFragment">
 
     <TextView
@@ -58,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dim_default_margin"
         android:text="@string/target_player_info"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonFindTargetPlayer" />

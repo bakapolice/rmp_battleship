@@ -7,8 +7,6 @@ import com.rmpcourse.battleship.data.score.Score;
 
 import java.util.List;
 
-/* TODO: RENAME COLUMNS PROPERLY */
-
 public class PlayerWithScores {
     @Embedded
     public Player player;

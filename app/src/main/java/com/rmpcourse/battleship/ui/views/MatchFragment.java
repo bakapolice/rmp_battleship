@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.rmpcourse.battleship.R;
 import com.rmpcourse.battleship.data.player.PlayerAndLeaderboard;
 import com.rmpcourse.battleship.databinding.FragmentMatchBinding;
 import com.rmpcourse.battleship.ui.viewmodel.LeaderboardViewModel;
@@ -22,8 +24,9 @@ public class MatchFragment extends Fragment {
     private LeaderboardViewModel mLeaderboardViewModel;
     private boolean dataReady = true;
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentMatchBinding.inflate(inflater, container, false);
@@ -33,9 +36,11 @@ public class MatchFragment extends Fragment {
         mPlayerViewModel.findPlayerById(playerId);
         binding.currentPlayer.setText(mPlayerViewModel.getPlayer().username);
 
-        binding.targetPlayerEditText.setOnFocusChangeListener((view, b) -> {
-            binding.targetPlayerTextView.setError(null);
-        });
+        binding.targetPlayerEditText.setOnFocusChangeListener((view, b) ->
+                binding.targetPlayerInputLayout.setError(null));
+
+        binding.targetPlayerEditText.setOnFocusChangeListener((view, b) ->
+                binding.targetPlayerTextView.setError(null));
 
         binding.buttonFindTargetPlayer.setOnClickListener(view -> {
             dataReady = true;
@@ -46,12 +51,10 @@ public class MatchFragment extends Fragment {
              * Проверка имени пользователя
              */
             if (targetUsername.equals("")) {
-
-                /* TODO: заменить строковыми ресурсами */
-                binding.targetPlayerTextView.setError("Can't be empty!");
+                binding.targetPlayerInputLayout.setError(getString(R.string.empty_field_error));
                 dataReady = false;
             } else if (targetUsername.length() < 2) {
-                binding.targetPlayerTextView.setError("Min 2 characters!");
+                binding.targetPlayerInputLayout.setError(getString(R.string.min_length_username_field_error));
                 dataReady = false;
             }
 
@@ -60,21 +63,22 @@ public class MatchFragment extends Fragment {
             if (mPlayerViewModel.findTargetPlayerByUsername(targetUsername)) {
                 if (mPlayerViewModel.getTargetPlayer().playerId == mPlayerViewModel.getPlayer().playerId) {
                     Toast toast = Toast.makeText(getContext(),
-                            "Вы не можете играть сами с собой!",
+                            getString(R.string.play_with_yourself),
                             Toast.LENGTH_LONG);
                     toast.show();
                     return;
                 }
 
                 PlayerAndLeaderboard leaderboard = mLeaderboardViewModel.getPlayerAndLeaderboardByPlayerId(mPlayerViewModel.getTargetPlayer().playerId);
-                /* TODO: заменить на форматированную строку ресурсов */
-                binding.targetPlayerTextView.setText(leaderboard.player.username + ". Wins: " + leaderboard.leaderboard.totalWins + ". Losses: " +
-                        leaderboard.leaderboard.totalLosses);
+                binding.targetPlayerTextView.setVisibility(View.VISIBLE);
+                binding.targetPlayerTextView.setText(getString(R.string.target_player_info,
+                        leaderboard.player.username, leaderboard.leaderboard.totalWins,
+                        leaderboard.leaderboard.totalLosses));
                 binding.buttonStartGame.setEnabled(true);
             } else {
                 binding.buttonStartGame.setEnabled(false);
                 Toast toast = Toast.makeText(getContext(),
-                        "Пользователь с таким именем не зарегистрирован!",
+                        getString(R.string.user_not_registered),
                         Toast.LENGTH_LONG);
                 toast.show();
             }

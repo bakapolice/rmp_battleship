@@ -33,7 +33,8 @@
     <action
         android:id="@+id/action_global_mainScreenFragment"
         app:destination="@id/mainScreenFragment"
-        app:popUpToInclusive="false" />
+        app:popUpTo="@id/mainScreenFragment"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.rmpcourse.battleship.ui.views.RegisterFragment"
@@ -42,7 +43,7 @@
         <action
             android:id="@+id/action_registerFragment_to_mainScreenFragment"
             app:destination="@id/mainScreenFragment"
-            app:popUpTo="@id/registerFragment"
+            app:popUpTo="@id/mainScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -72,7 +73,7 @@
         <action
             android:id="@+id/action_inGameFragment_to_startFragment"
             app:destination="@id/startFragment"
-            app:popUpTo="@id/startFragment"
+            app:popUpTo="@id/inGameFragment"
             app:popUpToInclusive="true" />
         <argument
             android:name="playerId"
@@ -91,12 +92,12 @@
         <action
             android:id="@+id/action_resultsFragment_to_inGameFragment"
             app:destination="@id/inGameFragment"
-            app:popUpTo="@id/resultsFragment"
+            app:popUpTo="@id/inGameFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_resultsFragment_to_startFragment"
             app:destination="@id/startFragment"
-            app:popUpTo="@id/startFragment"
+            app:popUpTo="@id/resultsFragment"
             app:popUpToInclusive="true" />
         <argument
             android:name="playerId"
@@ -130,16 +131,13 @@
         tools:layout="@layout/fragment_start" >
         <action
             android:id="@+id/action_startFragment_to_matchFragment"
-            app:destination="@id/matchFragment"
-            app:popUpTo="@id/startFragment" />
+            app:destination="@id/matchFragment" />
         <action
             android:id="@+id/action_startFragment_to_scoresFragment"
-            app:destination="@id/scoresFragment"
-            app:popUpTo="@id/startFragment" />
+            app:destination="@id/scoresFragment" />
         <action
             android:id="@+id/action_startFragment_to_leaderboardFragment"
-            app:destination="@id/leaderboardFragment"
-            app:popUpTo="@id/startFragment" />
+            app:destination="@id/leaderboardFragment" />
         <argument
             android:name="playerId"
             app:argType="long" />

@@ -15,14 +15,14 @@
     <string name="player_turn">%1$s\'s Turn</string>
     <string name="ships_remaining">Ships Remaining</string>
     <string name="please_wait">Give your phone to other player!</string>
-    <string name="timer">5</string>
+    <string name="timer" translatable="false">5</string>
     <string name="trophy">Trophy</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="register">Register</string>
     <string name="find_target_player_label">Enter target player username:</string>
     <string name="find">Find</string>
-    <string name="target_player_info">target player info</string>
+    <string name="target_player_info">%1$s. Wins: %2$d. Losses: %3$d</string>
     <string name="start">Start</string>
     <string name="current_player">current player</string>
     <string name="email_hint">Email</string>
@@ -37,21 +37,6 @@
     <string name="match_time">Match time: %1$d sec.</string>
     <string name="match_result_title">match result</string>
 
-    <!-- Ships -->
-
-    <!-- TODO: Add 1 sized ship -->
-
-    <string name="carrier">Aircraft Carrier</string>
-    <string name="carrier_size">5</string>
-    <string name="battleship">Battleship</string>
-    <string name="battleship_size">4</string>
-    <string name="cruiser">Cruiser</string>
-    <string name="cruiser_size">3</string>
-    <string name="submarine">Submarine</string>
-    <string name="submarine_size">3</string>
-    <string name="destroyer">Destroyer</string>
-    <string name="destroyer_size">2</string>
-
     <string name="settings">Settings</string>
     <string name="classic_description">Switch Players After Each Shot</string>
     <string name="quit_title">Quit Game</string>
@@ -59,6 +44,9 @@
     <string name="resume">Resume</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="kk">OK</string>
+    <string name="win">WIN</string>
+    <string name="loss">LOSS</string>
 
     <string name="you_win">You Win!</string>
     <string name="you_lose">You Lost This Match!</string>
@@ -68,9 +56,35 @@
     <string name="play_again">Play Again</string>
     <string name="return_to_menu">Return to Menu</string>
 
+    <!-- Toast messages -->
+    <string name="user_not_registered">User with this username is not registered!</string>
+    <string name="play_with_yourself">You can\'t play with yourself!</string>
+    <string name="user_exists">User with this username already exists!</string>
+    <string name="register_success">User registered successfully!</string>
+    <string name="incorrect_password">Password is incorrect!</string>
+
+    <!-- Ships -->
+
+    <!-- TODO: Add 1 sized ship -->
+
+    <string name="carrier" translatable="false">Aircraft Carrier</string>
+    <string name="carrier_size" translatable="false">5</string>
+    <string name="battleship" translatable="false">Battleship</string>
+    <string name="battleship_size" translatable="false">4</string>
+    <string name="cruiser" translatable="false">Cruiser</string>
+    <string name="cruiser_size" translatable="false">3</string>
+    <string name="submarine" translatable="false">Submarine</string>
+    <string name="submarine_size" translatable="false">3</string>
+    <string name="destroyer" translatable="false">Destroyer</string>
+    <string name="destroyer_size" translatable="false">2</string>
+    
     <!-- Errors -->
 
     <string name="error_title">Error</string>
     <string name="invalid_ships_error">Invalid Ship Locations! Ships Must Not Overlap</string>
+    <string name="empty_field_error">Can\'t be empty!</string>
+    <string name="min_length_username_field_error">"Min 2 characters!"</string>
+    <string name="min_length_password_field_error">"Min 6 characters!"</string>
+    <string name="invalid_email_error">Invalid email address!</string>
 
 </resources>
