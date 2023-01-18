@@ -146,7 +146,6 @@ class DrawableBoardPlacing extends DrawableBoard {
         }
     }
 
-    // TODO Сделать сброс цветов и иконок в одной функции
     public void colorShips() {
         colorReset();
         rotateIconReset();

@@ -51,18 +51,18 @@
 
             <Button
                 android:id="@+id/button_rotate_ship"
-                style="@style/ButtonLight"
+                style="@style/Button"
                 android:text="@string/rotate"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/button_place_ships_randomly"
-                style="@style/ButtonLight"
+                style="@style/Button"
                 android:text="@string/random" />
 
             <Button
                 android:id="@+id/button_confirm_ships"
-                style="@style/ButtonBlue"
+                style="@style/Button"
                 android:text="@string/confirm_ships" />
         </LinearLayout>
 
@@ -71,7 +71,7 @@
             style="@style/Screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/text_my_turn"
@@ -438,12 +438,12 @@
 
                 <Button
                     android:id="@+id/button_resume"
-                    style="@style/ButtonBlue"
+                    style="@style/Button"
                     android:text="@string/resume" />
 
                 <Button
                     android:id="@+id/button_quit"
-                    style="@style/ButtonBlueLast"
+                    style="@style/Button"
                     android:text="@string/quit_title" />
             </LinearLayout>
         </LinearLayout>
@@ -453,7 +453,7 @@
             style="@style/WaitingScreen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/text_please_wait"

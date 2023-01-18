@@ -24,7 +24,7 @@ public class DataRepository {
     private LiveData<List<Player>> mAllPlayers;
 
     private ScoreDao mScoreDao;
-    /* TODO: get to know how to replace with one-to-many relation action */
+
     private LiveData<List<Score>> mAllScores;
 
     private LeaderboardDao mLeaderboardDao;
@@ -156,5 +156,4 @@ public class DataRepository {
     public Leaderboard findLeaderboardByPlayerId(long id) {
         return mLeaderboardDao.findByPlayerId(id);
     }
-    /* TODO: add async find by id and etc. */
 }

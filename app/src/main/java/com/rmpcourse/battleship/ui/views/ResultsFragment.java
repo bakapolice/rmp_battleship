@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -28,7 +29,7 @@ public class ResultsFragment extends Fragment {
     private LeaderboardViewModel mLeaderboardViewModel;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentResultsBinding.inflate(inflater, container, false);
@@ -65,8 +66,9 @@ public class ResultsFragment extends Fragment {
         Leaderboard targetLeaderboard = mLeaderboardViewModel.findLeaderboardByPlayerId(targetPlayerId);
 
         if (win) {
-            binding.imageTrophy.setVisibility(View.VISIBLE);
+            //binding.imageTrophy.setVisibility(View.VISIBLE);
             binding.winnerTextView.setText(getString(R.string.you_win));
+            binding.looserTextView.setText(getString(R.string.other_player_lose, mPlayerViewModel.getTargetPlayer().username));
 
             playerScore.matchResult = "WIN";
             targetScore.matchResult = "LOSS";
@@ -79,8 +81,9 @@ public class ResultsFragment extends Fragment {
             playerScore.matchResult = "LOSS";
             targetScore.matchResult = "WIN";
 
-            binding.imageTrophy.setVisibility(View.GONE);
+            //binding.imageTrophy.setVisibility(View.GONE);
             binding.winnerTextView.setText(getString(R.string.you_lose));
+            binding.looserTextView.setText(getString(R.string.other_player_won, mPlayerViewModel.getTargetPlayer().username));
 
             targetLeaderboard.totalWins = targetLeaderboard.totalWins + 1;
             playerLeaderboard.totalLosses = playerLeaderboard.totalLosses + 1;

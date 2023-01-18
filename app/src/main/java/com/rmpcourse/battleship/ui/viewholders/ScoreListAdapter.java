@@ -29,7 +29,7 @@ public class ScoreListAdapter extends ListAdapter<Score, ScoreViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ScoreViewHolder holder, int position) {
         Score current = getItem(position);
-        holder.bind(current);
+        holder.bind(current, holder);
     }
 
     public static class ScoreDiff extends DiffUtil.ItemCallback<Score> {

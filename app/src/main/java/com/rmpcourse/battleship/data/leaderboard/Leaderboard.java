@@ -6,9 +6,6 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "leaderboards")
 public class Leaderboard {
-
-    /* TODO: make one-to-one relation with player */
-
     @PrimaryKey(autoGenerate = true)
     public int leaderboardId;
 

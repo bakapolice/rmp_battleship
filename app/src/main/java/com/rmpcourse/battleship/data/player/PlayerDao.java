@@ -42,8 +42,6 @@ public interface PlayerDao {
     @Query("select * from players")
     LiveData<List<PlayerWithScores>> getPlayersWithScores();
 
-    /* TODO: test and edit if not working */
-
     @Transaction
     @Query("select * from players where playerId = :id")
     LiveData<PlayerWithScores> getPlayerWithScoresById(long id);

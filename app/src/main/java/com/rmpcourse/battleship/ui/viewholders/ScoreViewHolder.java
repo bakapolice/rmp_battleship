@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rmpcourse.battleship.R;
 import com.rmpcourse.battleship.data.score.Score;
 import com.rmpcourse.battleship.databinding.ItemScoreBinding;
 
@@ -18,11 +19,10 @@ public class ScoreViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
-    public void bind(Score score) {
+    public void bind(Score score, ScoreViewHolder viewHolder) {
         binding.textViewTargetUsername.setText(score.targetUsername);
         binding.textViewMatchDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(score.date));
-        /* TODO: добавить единицы измерения для времени */
-        binding.textViewMatchTime.setText(Integer.toString(score.matchTime));
+        binding.textViewMatchTime.setText(viewHolder.itemView.getContext().getString(R.string.match_time, score.matchTime));
         binding.textViewMatchResult.setText(score.matchResult);
     }
 }

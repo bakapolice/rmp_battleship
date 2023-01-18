@@ -28,7 +28,7 @@ public class LeaderboardListAdapter extends ListAdapter<Leaderboard, Leaderboard
     @Override
     public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
         Leaderboard current = getItem(position);
-        holder.bind(current);
+        holder.bind(current, holder);
     }
 
     public static class LeaderboardDiff extends DiffUtil.ItemCallback<Leaderboard> {

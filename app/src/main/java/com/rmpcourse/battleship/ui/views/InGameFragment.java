@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -43,7 +44,7 @@ public class InGameFragment extends Fragment {
     private long playerId = -1, targetPlayerId = -1;
 
     private int timeRemaining = -1;
-    private final int waiting = 5;
+    private final int waiting = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class InGameFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInGameBinding.inflate(inflater, container, false);
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
@@ -77,30 +78,23 @@ public class InGameFragment extends Fragment {
             else buttonPlaceShipsRandomly(targetBoard);
         });
 
-        binding.buttonQuitGame.setOnClickListener(view -> {
-            confirmQuit();
-        });
+        binding.buttonQuitGame.setOnClickListener(view -> confirmQuit());
 
-        binding.buttonResume.setOnClickListener(view -> {
-            hidePopups();
-        });
+        binding.buttonResume.setOnClickListener(view -> hidePopups());
 
         // Кнопка поворота кораблей
         binding.buttonRotateShip.setOnClickListener(view -> {
-            if (myDrawableBoardPlacing.getActiveShip() != null) {
-                myDrawableBoardPlacing.getActiveShip().rotate();
-                myDrawableBoardPlacing.colorShips();
+            if (drawableBoardPlacing.getActiveShip() != null) {
+                drawableBoardPlacing.getActiveShip().rotate();
+                drawableBoardPlacing.colorShips();
             }
         });
 
         // Обрабатывает нажатие вне попапа
-        binding.popupQuitGame.setOnClickListener(view -> {
-            hidePopups();
-        });
+        binding.popupQuitGame.setOnClickListener(view -> hidePopups());
 
         binding.buttonQuit.setOnClickListener(view -> {
             NavDirections action = InGameFragmentDirections
-                    /* TODO: передавайть айди текущего игрока */
                     .actionInGameFragmentToStartFragment(playerId);
             Navigation.findNavController(view).navigate(action);
         });
@@ -122,7 +116,6 @@ public class InGameFragment extends Fragment {
      */
 
     private static final int[] SCREENS = {
-            /* TODO: сделать надпись "передайте другому игроку" */
             R.id.screen_please_wait,
             R.id.screen_place_ships,
             R.id.screen_target_board,
@@ -182,8 +175,8 @@ public class InGameFragment extends Fragment {
      */
     public void buttonPlaceShipsRandomly(Board board) {
         board.placeShipsRandom();
-        myDrawableBoardPlacing.setNoActiveShip();
-        myDrawableBoardPlacing.colorShips();
+        drawableBoardPlacing.setNoActiveShip();
+        drawableBoardPlacing.colorShips();
     }
 
     public void buttonConfirmShips(Board board) {
@@ -263,7 +256,7 @@ public class InGameFragment extends Fragment {
         }
     }
 
-    /* TODO: задержка при переключении экранов игроков */
+    /* задержка при переключении экранов игроков */
     final Runnable delayTransition = new Runnable() {
         @Override
         public void run() {
@@ -282,7 +275,7 @@ public class InGameFragment extends Fragment {
      */
     private Board myBoard;
     private Board targetBoard;
-    private DrawableBoardPlacing myDrawableBoardPlacing;
+    private DrawableBoardPlacing drawableBoardPlacing;
     private DrawableBoard myDrawableBoard;
     private DrawableBoard targetDrawableBoard;
     private boolean gameInProgress = true;
@@ -298,11 +291,11 @@ public class InGameFragment extends Fragment {
         int displayWidth = displayMetrics.widthPixels;
         int buttonSize = displayWidth / (BoardSize.COLUMNS + 1);
 
-        myDrawableBoardPlacing = new DrawableBoardPlacing(getContext(), board, buttonSize);
+        drawableBoardPlacing = new DrawableBoardPlacing(getContext(), board, buttonSize);
 
         LinearLayout BattleshipGridPlacing = binding.getRoot().findViewById(R.id.battleship_grid_placing);
         BattleshipGridPlacing.removeAllViewsInLayout();
-        BattleshipGridPlacing.addView(myDrawableBoardPlacing);
+        BattleshipGridPlacing.addView(drawableBoardPlacing);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -446,7 +439,10 @@ public class InGameFragment extends Fragment {
      * canTarget == true - я могу стрелять
      * canTarget == false - может стрелять противник
      */
-    /* TODO: THIS IS GAME LOGIC */
+
+    /**
+     * THIS IS GAME LOGIC
+     */
     private void targetCoordinate(DrawableSquare square, DrawableBoard drawableBoard, Board board) {
         canTarget = !canTarget;
         Coordinate coordinate = square.getCoordinate();
@@ -462,25 +458,22 @@ public class InGameFragment extends Fragment {
             displaySunkShip(board, drawableBoard);
             if (board.allShipsSunk()) {
                 gameInProgress = false;
-                if (board == targetBoard) showEndGame(true);
-                else showEndGame(false);
+                showEndGame(board == targetBoard);
             } else {
-                if (board == targetBoard) myTurn = false;
-                else myTurn = true;
+                myTurn = board != targetBoard;
 
                 showWaitingScreen();
                 handler.postDelayed(timer, 0);
-                handler.postDelayed(delayTransition, 5000);
+                handler.postDelayed(delayTransition, waiting * 1000);
             }
         } else {
-            if (board == targetBoard) myTurn = false;
-            else myTurn = true;
+            myTurn = board != targetBoard;
             square.setImage(R.drawable.miss);
             board.setStatus(x, y, BoardStatus.MISS);
 
             showWaitingScreen();
             handler.postDelayed(timer, 0);
-            handler.postDelayed(delayTransition, 5000);
+            handler.postDelayed(delayTransition, waiting * 1000);
         }
     }
 

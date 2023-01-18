@@ -15,7 +15,6 @@ public class ScoresViewModel extends AndroidViewModel {
     private DataRepository mRepository;
     private final LiveData<List<Score>> mAllScores;
 
-    /* TODO: add player with scores to viewmodel */
     private LiveData<PlayerWithScores> mPlayerScores = new LiveData<PlayerWithScores>() {
     };
 

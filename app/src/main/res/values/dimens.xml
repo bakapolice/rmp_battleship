@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dim_big_margin">24dp</dimen>
+    <dimen name="dim_default_margin">16dp</dimen>
+    <dimen name="divider_margin">8dp</dimen>
+    <dimen name="cardview_tv_margin_top">8dp</dimen>
+    <dimen name="cardview_layout_margin_top">16dp</dimen>
+    <dimen name="cardview_tv_margin_start">6dp</dimen>
+</resources>

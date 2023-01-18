@@ -8,14 +8,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.views.MatchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/textViewTargetPlayerLabel"
         style="@style/TextMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Enter target player username:"
+        android:layout_marginTop="@dimen/dim_default_margin"
+        android:text="@string/find_target_player_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,9 +23,9 @@
         android:id="@+id/targetPlayerInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="@dimen/dim_big_margin"
+        android:layout_marginTop="@dimen/dim_default_margin"
+        android:layout_marginEnd="@dimen/dim_big_margin"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,17 +37,16 @@
             android:id="@+id/targetPlayerEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
-            android:maxLength="20"/>
+            android:hint="@string/username_hint"
+            android:maxLength="@integer/max_username_length" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/buttonFindTargetPlayer"
-        style="@style/ButtonLight"
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Find"
+        android:text="@string/find"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/targetPlayerInputLayout" />
@@ -58,20 +56,19 @@
         style="@style/TextMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="target player info"
+        android:layout_marginTop="@dimen/dim_default_margin"
+        android:text="@string/target_player_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonFindTargetPlayer" />
 
     <Button
         android:id="@+id/buttonStartGame"
-        style="@style/ButtonLight"
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:enabled="false"
-        android:text="Start"
+        android:text="@string/start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/targetPlayerTextView" />
@@ -80,8 +77,8 @@
         android:id="@+id/currentPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="current player"
+        android:layout_marginBottom="@dimen/dim_default_margin"
+        android:text="@string/current_player"
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

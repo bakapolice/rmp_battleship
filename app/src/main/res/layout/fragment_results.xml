@@ -8,39 +8,46 @@
     android:layout_height="match_parent"
     tools:context=".ui.views.ResultsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <ImageView
         android:id="@+id/imageTrophy"
         style="@style/Trophy"
-        android:layout_marginTop="258dp"
+        android:layout_marginBottom="@dimen/dim_default_margin"
         android:contentDescription="@string/trophy"
+        app:layout_constraintBottom_toTopOf="@+id/winnerTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/winnerTextView"
         style="@style/TextLarge"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/dim_default_margin"
         android:text="@string/you_win"
+        app:layout_constraintBottom_toTopOf="@+id/looserTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/looserTextView"
+        style="@style/TextLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/you_lose"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageTrophy" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonPlayAgain"
-        style="@style/ButtonBlue"
-        android:layout_marginTop="16dp"
+        style="@style/Button"
         android:text="@string/play_again"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/winnerTextView" />
+        app:layout_constraintTop_toBottomOf="@id/looserTextView" />
 
     <Button
         android:id="@+id/buttonReturnToMenu"
-        style="@style/ButtonBlueLast"
-        android:layout_marginTop="14dp"
+        style="@style/Button"
         android:text="@string/return_to_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
