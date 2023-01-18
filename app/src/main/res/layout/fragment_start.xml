@@ -9,24 +9,26 @@
     tools:context=".ui.views.StartFragment">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageViewLogoStart"
+        style="@style/Logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/battleship"
         android:src="@drawable/battleship_logo"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPlay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonPlay"
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dim_default_margin"
         android:text="@string/play"
+        app:layout_constraintBottom_toTopOf="@+id/buttonScores"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonScores"
@@ -34,9 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/scores"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonPlay" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonLeaderboard"
