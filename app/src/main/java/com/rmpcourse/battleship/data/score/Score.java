@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+// Таблица "Результаты"
 @Entity(tableName = "scores")
 public class Score {
     @PrimaryKey(autoGenerate = true)

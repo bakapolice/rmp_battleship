@@ -13,6 +13,7 @@ import com.rmpcourse.battleship.R;
 public class DrawableBoard extends TableLayout {
     public DrawableSquare[][] squares;
 
+    // Создание игровой доска
     public DrawableBoard(Context context, int buttonWidth) {
         super(context);
         this.squares = new DrawableSquare[BoardSize.COLUMNS][BoardSize.ROWS];
@@ -30,6 +31,7 @@ public class DrawableBoard extends TableLayout {
                 final DrawableSquare square = new DrawableSquare(context, new Coordinate(j, i));
                 square.setLayoutParams(buttonLayoutParams);
 
+                // Добавление квадрата на макет
                 squares[j][i] = square;
                 layout.addView(squares[j][i]);
                 row.addView(layout);
@@ -37,6 +39,7 @@ public class DrawableBoard extends TableLayout {
         }
     }
 
+    // Сброс цвета ячеек
     public void colorReset() {
         for (int i = 0; i < BoardSize.COLUMNS; i++) {
             for (int j = 0; j < BoardSize.ROWS; j++) {
@@ -45,6 +48,7 @@ public class DrawableBoard extends TableLayout {
         }
     }
 
+    // Отображение "прицела" при выборе квадрата для выстрела
     public void colorCrosshair(int x, int y) {
         colorReset();
 

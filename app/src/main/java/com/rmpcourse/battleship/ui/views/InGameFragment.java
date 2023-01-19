@@ -49,6 +49,8 @@ public class InGameFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Переопределяем поведение кнопки "Назад"
         requireActivity().getOnBackPressedDispatcher()
                 .addCallback(new OnBackPressedCallback(false) {
                     @Override
@@ -61,25 +63,35 @@ public class InGameFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Создаем объект представления
         binding = FragmentInGameBinding.inflate(inflater, container, false);
+        // Получаем экземпляры моделей данных
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        // Получаем аргументы
         playerId = InGameFragmentArgs.fromBundle(getArguments()).getPlayerId();
         targetPlayerId = InGameFragmentArgs.fromBundle(getArguments()).getTargetPlayerId();
+
+        // Находим нужные данные в БД с помощью модели данных
         mPlayerViewModel.findPlayerById(playerId);
         mPlayerViewModel.findTargetPlayerById(targetPlayerId);
 
+        // Кнопка "Подтвердить расположение кораблей"
         binding.buttonConfirmShips.setOnClickListener(view -> {
             if (myTurn) buttonConfirmShips(myBoard);
             else buttonConfirmShips(targetBoard);
         });
 
+        // Кнопка "Расставить корбали случайно"
         binding.buttonPlaceShipsRandomly.setOnClickListener(view -> {
             if (myTurn) buttonPlaceShipsRandomly(myBoard);
             else buttonPlaceShipsRandomly(targetBoard);
         });
 
+        // Кнопка "Выйти из игры"
         binding.buttonQuitGame.setOnClickListener(view -> confirmQuit());
 
+        // Кнопка "Продолжить"
         binding.buttonResume.setOnClickListener(view -> hidePopups());
 
         // Кнопка поворота кораблей
@@ -93,6 +105,7 @@ public class InGameFragment extends Fragment {
         // Обрабатывает нажатие вне попапа
         binding.popupQuitGame.setOnClickListener(view -> hidePopups());
 
+        // Кнопка "Выйти"
         binding.buttonQuit.setOnClickListener(view -> {
             NavDirections action = InGameFragmentDirections
                     .actionInGameFragmentToStartFragment(playerId);
@@ -104,10 +117,12 @@ public class InGameFragment extends Fragment {
             //
         });
 
+        // Начало игры
         startGameSinglePlayer();
-        // Inflate the layout for this fragment
+        // Устанавливаем представление для фрагмента
         return binding.getRoot();
     }
+
 
     private static final String TAG = "Battleship";
 
@@ -115,15 +130,19 @@ public class InGameFragment extends Fragment {
      * User Interface
      */
 
+    // Список экранов на макете
     private static final int[] SCREENS = {
             R.id.screen_please_wait,
             R.id.screen_place_ships,
             R.id.screen_target_board,
             R.id.screen_my_board};
 
+    // Спислк всплывающих окон
     private static final int[] POPUPS = {
             R.id.popup_quit_game};
 
+
+    // Метод переключения на указанный экран
     private void switchToScreen(int screen) {
         for (int s : SCREENS) {
             if (s == screen) {
@@ -134,12 +153,14 @@ public class InGameFragment extends Fragment {
         }
     }
 
+    // Показать экран ожидания
     private void showWaitingScreen() {
         timeRemaining = waiting;
         binding.textTimer.setText(String.valueOf(timeRemaining));
         binding.screenPleaseWait.setVisibility(View.VISIBLE);
     }
 
+    // Подсчитать время игры и перейти на страницу результатов
     private void showEndGame(boolean win) {
         timeEnd = new Date();
         int time = (int) ((timeEnd.getTime() - timeStart.getTime()) / 1000); //время в секундах
@@ -149,12 +170,15 @@ public class InGameFragment extends Fragment {
         Navigation.findNavController(getView()).navigate(action);
     }
 
+
+    // Скрыть все всплывающие окна
     private void hidePopups() {
         for (int p : POPUPS) {
             binding.getRoot().findViewById(p).setVisibility(View.GONE);
         }
     }
 
+    // Сбросить отображение оставшихся кораблей в исходное состояние
     private void resetShipIcons() {
         binding.imageMyCarrier.setImageResource(R.drawable.carrier);
         binding.imageMyBattleship.setImageResource(R.drawable.battleship);
@@ -173,12 +197,14 @@ public class InGameFragment extends Fragment {
     /**
      * Button Click Events
      */
+    // Расстановка кораблей случайным образом
     public void buttonPlaceShipsRandomly(Board board) {
         board.placeShipsRandom();
         drawableBoardPlacing.setNoActiveShip();
         drawableBoardPlacing.colorShips();
     }
 
+    // Подвтердить расположение кораблей
     public void buttonConfirmShips(Board board) {
         if (board.isValidBoard()) {
             board.confirmShipLocations();
@@ -213,10 +239,13 @@ public class InGameFragment extends Fragment {
      * Alert Dialogs
      */
 
+    // Всплывающее окно подтверждения выхода из игры
     private void confirmQuit() {
         binding.popupQuitGame.setVisibility(View.VISIBLE);
     }
 
+
+    // Показ всплывающего окна с ошибкой, если корабли расставлены с колизией
     private void displayError(String error) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AlertDialogCustom));
         builder.setTitle(R.string.error_title);
@@ -247,6 +276,7 @@ public class InGameFragment extends Fragment {
         }
     };
 
+    // Тик таймера
     private void timerTick() {
         if (timeRemaining > 0) {
             binding.textTimer.setText(String.valueOf(timeRemaining));
@@ -284,7 +314,7 @@ public class InGameFragment extends Fragment {
 
     private Date timeStart, timeEnd;
 
-    // Передавать в параметры чью доску надо отрисовать
+    // Отрсовка поля для расстановки кораблей
     private void displayDrawableBoardPlacing(Board board) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -298,8 +328,11 @@ public class InGameFragment extends Fragment {
         BattleshipGridPlacing.addView(drawableBoardPlacing);
     }
 
+    // Создание и отрисовка игровых полей
     @SuppressLint("ClickableViewAccessibility")
     private void displayDrawableBoards() {
+
+        // Получаем размеры экрана, чтобы вывести игровое поле по центру
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int displayWidth = displayMetrics.widthPixels;
@@ -317,6 +350,7 @@ public class InGameFragment extends Fragment {
                 square.setOnTouchListener((view, motionEvent) -> {
                     if (gameInProgress && myTurn && canTarget) {
                         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                            // Отображаем "тень" для перетаскивания кораблей по полю
                             ClipData data = ClipData.newPlainText("", "");
                             View.DragShadowBuilder shadowBuilder = new MyDragShadowBuilder();
                             view.startDrag(data, shadowBuilder, view, 0);
@@ -326,6 +360,7 @@ public class InGameFragment extends Fragment {
                     return false;
                 });
 
+                // Обработка передвижения кораблей по полю
                 square.setOnDragListener((view, dragEvent) -> {
                     switch (dragEvent.getAction()) {
                         case DragEvent.ACTION_DRAG_STARTED:
@@ -341,6 +376,7 @@ public class InGameFragment extends Fragment {
                         case DragEvent.ACTION_DROP:
                             DrawableSquare touchedSquare = (DrawableSquare) view;
 
+                            // Обработка выстрела
                             if (!touchedSquare.isClicked()) {
                                 targetCoordinate(touchedSquare, targetDrawableBoard, targetBoard);
                             }
@@ -355,7 +391,7 @@ public class InGameFragment extends Fragment {
             }
         }
 
-
+        // Отрисовка игрового поля в интерфейста
         LinearLayout BattleshipTargetGrid = binding.targetBattleshipGrid;
         BattleshipTargetGrid.removeAllViewsInLayout();
         BattleshipTargetGrid.addView(targetDrawableBoard);
@@ -410,12 +446,17 @@ public class InGameFragment extends Fragment {
             }
         }
 
+        // Отрисовка игрового поля в интерфейста
         LinearLayout BattleshipMyGrid = binding.myBattleshipGrid;
         BattleshipMyGrid.removeAllViewsInLayout();
         BattleshipMyGrid.addView(myDrawableBoard);
     }
 
+
+    // Начало игры
     private void startGameSinglePlayer() {
+
+        // Устанавливаем значения переменных и текстовых компнентов
         resetShipIcons();
         gameInProgress = true;
         myTurn = true;
@@ -432,6 +473,8 @@ public class InGameFragment extends Fragment {
         timeRemaining = waiting;
         timeStart = new Date();
         binding.textPlaceShips.setText(getString(R.string.place_ships, mPlayerViewModel.getPlayer().username));
+
+        // Вызов метода отрисовки поля для расстановки кораблей
         displayDrawableBoardPlacing(myBoard);
     }
 
@@ -443,34 +486,45 @@ public class InGameFragment extends Fragment {
     /**
      * THIS IS GAME LOGIC
      */
+    // Обработка выстрела
     private void targetCoordinate(DrawableSquare square, DrawableBoard drawableBoard, Board board) {
         canTarget = !canTarget;
+        // Получение координат выстрела
         Coordinate coordinate = square.getCoordinate();
         int x = coordinate.getX();
         int y = coordinate.getY();
 
+        // Отризовка "прицела"
         drawableBoard.colorCrosshair(x, y);
         square.setClicked(true);
 
+        // Если коррдинаты выстрела такие же, как координаты части кораблся
+        // то рисуем попадание
         if (board.getStatus(x, y) == BoardStatus.HIDDEN_SHIP) {
             square.setImage(R.drawable.hit);
             board.setStatus(x, y, BoardStatus.HIT);
+            // Отрисовываем затонувшие корабли, если они есть
             displaySunkShip(board, drawableBoard);
+            // Если все корабли затоплены, то игра завершена, переходим на страницу с резулльтатами
             if (board.allShipsSunk()) {
                 gameInProgress = false;
                 showEndGame(board == targetBoard);
             } else {
                 myTurn = board != targetBoard;
 
+                // Если не все корабли затоплены, показываем экран ожидания, теперь очередь другого игрока делать выстрел
                 showWaitingScreen();
                 handler.postDelayed(timer, 0);
                 handler.postDelayed(delayTransition, waiting * 1000);
             }
         } else {
             myTurn = board != targetBoard;
+            // Если координаты выстрела не совпадают с координатами ни одного корабля
+            // отрисовываем попадание мимо
             square.setImage(R.drawable.miss);
             board.setStatus(x, y, BoardStatus.MISS);
 
+            // Показываем экран ожидания. теперь очередь другого игрока
             showWaitingScreen();
             handler.postDelayed(timer, 0);
             handler.postDelayed(delayTransition, waiting * 1000);
@@ -490,6 +544,7 @@ public class InGameFragment extends Fragment {
                 dBoard.squares[c.getX()][c.getY()].setImage(R.drawable.sunk);
             }
 
+            // Меняем отображение кораблей на доске игрока
             if (board == myBoard) {
                 switch (ship.getType()) {
                     case CARRIER:
@@ -530,6 +585,7 @@ public class InGameFragment extends Fragment {
                 }
             }
 
+            // Топим все корабли на доске
             board.sinkShips();
         }
     }

@@ -24,21 +24,29 @@ public class ScoresFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Создаем объект представления
         binding = FragmentScoresBinding.inflate(inflater, container, false);
 
+        // Получаем аргументы на данном фрагменте
         long playerId = ScoresFragmentArgs.fromBundle(getArguments()).getPlayerId();
 
+        // получение ссылки на RecyclerView
         RecyclerView recyclerView = binding.recyclerViewScores;
+
+        // Создание и назначение адаптера
         final ScoreListAdapter adapter = new ScoreListAdapter(new ScoreListAdapter.ScoreDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Получаем экземплят модели данных
         mScoresViewModel = new ViewModelProvider(this).get(ScoresViewModel.class);
+        // Ищем игрока по id
         mScoresViewModel.findPlayerWithScoresById(playerId);
+        // Подписываемся на список нужных для вывода данных и выводим их в recyclerView
         mScoresViewModel.getPlayerWithScores().observe(getViewLifecycleOwner(),
                 player -> adapter.submitList(player.scores));
 
-        // Inflate the layout for this fragment
+        // Устанавливаем представление для фрагмента
         return binding.getRoot();
     }
 }

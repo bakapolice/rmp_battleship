@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -26,32 +24,42 @@ public class StartFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentStartBinding.inflate(inflater, container, false);
+
+        // Получаем экземпляр модели данных игрока
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
         assert getArguments() != null;
+
+        // Получаем аргументы, переданные во фрагмент
         long playerId = StartFragmentArgs.fromBundle(getArguments()).getPlayerId();
+        // Вызываем метод в модели данных, чтобы найти и сохранить информацию о текущем игроке
         mPlayerViewModel.findPlayerById(playerId);
 
+        // Выводим имя автризованного пользователя
         binding.textViewCurrentUser.setText(mPlayerViewModel.getPlayer().username);
 
+        // Кнопка "Играть"
         binding.buttonPlay.setOnClickListener(view -> {
             NavDirections action = StartFragmentDirections
                     .actionStartFragmentToMatchFragment(mPlayerViewModel.getPlayer().playerId);
             Navigation.findNavController(view).navigate(action);
         });
 
+        // Кнопка "Результаты"
         binding.buttonScores.setOnClickListener(view -> {
             NavDirections action = StartFragmentDirections
                     .actionStartFragmentToScoresFragment(playerId);
             Navigation.findNavController(view).navigate(action);
         });
 
+        // Кнопка "Таблица лидеров"
         binding.buttonLeaderboard.setOnClickListener(view -> {
             NavDirections action = StartFragmentDirections
                     .actionStartFragmentToLeaderboardFragment();
             Navigation.findNavController(view).navigate(action);
         });
 
+        // Кнопка "Выйти"
         binding.buttonLogout.setOnClickListener(view -> {
             NavDirections action = StartFragmentDirections.actionGlobalMainScreenFragment();
             Navigation.findNavController(view).navigate(action);

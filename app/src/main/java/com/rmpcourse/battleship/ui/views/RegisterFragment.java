@@ -33,23 +33,26 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Создаем объект представления
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
+
+        // Получаем экземпляры моделей данных
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         mLeaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
-
+        // Установка слушателей на поля ввода
         binding.usernameEditText.setOnFocusChangeListener((view, b) -> binding.usernameInputLayout.setError(null));
-
         binding.emailEditText.setOnFocusChangeListener(((view, b) -> binding.emailInputLayout.setError(null)));
-
         binding.passwordEditText.setOnFocusChangeListener((view, b) -> binding.passwordInputLayout.setError(null));
 
+        // Кнопка "Зарегистрироваться"
         binding.buttonSignUp.setOnClickListener(view -> {
             binding.usernameEditText.clearFocus();
             binding.emailEditText.clearFocus();
             binding.passwordEditText.clearFocus();
 
 
+            // Получение данных с полей
             String username = binding.usernameEditText.getText().toString();
             String email = binding.emailEditText.getText().toString();
             String password = binding.passwordEditText.getText().toString();
@@ -88,31 +91,41 @@ public class RegisterFragment extends Fragment {
                 dataReady = false;
             }
 
+            // Если все поля не заполнены, то не продолжаем
             if (!dataReady) return;
 
+            // Если пользователь не существует
             if (!isPlayerExists(username)) {
+                // Создание нового объекта
                 Player player = new Player();
                 player.username = username;
                 player.password = password;
                 player.email = email;
 
+                // Запись объекта в БД с помощью модели данных и получение id последней созданной записи
                 long playerId = mPlayerViewModel.insert(player);
 
+                // Создание нового объекта
                 Leaderboard leaderboard = new Leaderboard();
                 leaderboard.playerLeaderboardId = playerId;
                 leaderboard.playerUsername = username;
+
+                // Запись объекта в БД с помощью модели данных
                 mLeaderboardViewModel.insert(leaderboard);
 
+                // Навигация с помощью Navigation Component
                 NavDirections action = RegisterFragmentDirections
                         .actionRegisterFragmentToMainScreenFragment();
                 Navigation.findNavController(view).navigate(action);
 
+                // Выводим всплывающее сообщение
                 Toast toast = Toast.makeText(getContext(),
                         getString(R.string.register_success),
                         Toast.LENGTH_LONG);
                 toast.show();
 
             } else {
+                // Выводим всплывающее сообщение
                 Toast toast = Toast.makeText(getContext(),
                         getString(R.string.user_exists),
                         Toast.LENGTH_LONG);
@@ -120,7 +133,7 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
+        // Устанавливаем представление для фрагмента
         return binding.getRoot();
     }
 
@@ -134,6 +147,7 @@ public class RegisterFragment extends Fragment {
         return matcher.find();
     }
 
+    // Проверка наличия пользователя в БД с таким именем
     private boolean isPlayerExists(String username) {
         return mPlayerViewModel.findPlayerByUsername(username);
     }

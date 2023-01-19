@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LeaderboardItemDivider extends RecyclerView.ItemDecoration {
 
+    // Дефолтный разделитель
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+    // Объект отрисовки разделителя
     private Drawable divider;
 
 
@@ -42,11 +44,13 @@ public class LeaderboardItemDivider extends RecyclerView.ItemDecoration {
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
 
+        // Получаем количество дочернх эллементов
         int childCount = parent.getChildCount();
         //Для каждого элемента, кроме последнего, нарисовать линию
         for (int i = 0; i < childCount - 1; i++) {
             View child = parent.getChildAt(i); //Получить i-тый элемент списка
 
+            // Плдучение параметров элемента
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
             //Вычисление координат y (игрек) текущего разделителя

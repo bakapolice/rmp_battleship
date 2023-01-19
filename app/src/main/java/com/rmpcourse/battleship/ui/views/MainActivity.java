@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         hideSystemUI();
 
+        // Закрытие прилоежнеия и завершение процессов
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
             android.os.Process.killProcess(android.os.Process.myPid());
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
      * Fullscreen Mode
      */
 
+    // Скрыть системный интерфейс,когда появился фокус
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Скрытие системного интерфейса
     private void hideSystemUI() {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY

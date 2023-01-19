@@ -5,6 +5,7 @@ import androidx.room.Relation;
 
 import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
 
+// Связь один-к-одному между сущностями "Пользователь" и "Таблица лидеров"
 public class PlayerAndLeaderboard {
     @Embedded
     public Player player;

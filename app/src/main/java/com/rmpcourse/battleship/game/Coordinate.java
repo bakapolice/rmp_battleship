@@ -1,5 +1,7 @@
 package com.rmpcourse.battleship.game;
 
+
+// Класс координаты
 public class Coordinate {
     private int x;
     private int y;
@@ -9,22 +11,27 @@ public class Coordinate {
         this.y = y;
     }
 
+    // получить координату х
     public int getX() {
         return x;
     }
 
+    // установить координату х
     public void setX(int x) {
         this.x = x;
     }
 
+    // получить координату y
     public int getY() {
         return y;
     }
 
+    // получить координату y
     public void setY(int y) {
         this.y = y;
     }
 
+    // установить координату
     public void set(int x, int y) {
         this.x = x;
         this.y = y;

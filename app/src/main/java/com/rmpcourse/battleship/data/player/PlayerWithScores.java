@@ -7,6 +7,7 @@ import com.rmpcourse.battleship.data.score.Score;
 
 import java.util.List;
 
+// Связь один-ко-многим между сущностями "Пользователь" и "Результаты"
 public class PlayerWithScores {
     @Embedded
     public Player player;

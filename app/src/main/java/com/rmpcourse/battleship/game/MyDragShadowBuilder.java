@@ -4,6 +4,8 @@ import android.graphics.Point;
 import android.view.View;
 
 public class MyDragShadowBuilder extends View.DragShadowBuilder {
+
+    // Отрисовка "тени" для перетаскивания
     @Override
     public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
         outShadowSize.set(1, 1);

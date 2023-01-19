@@ -19,21 +19,26 @@ public class MainScreenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         binding = FragmentMainScreenBinding.inflate(inflater, container, false);
 
+        // Кнопка "Авторизоваться"
         binding.buttonLogin.setOnClickListener(view -> {
             NavDirections action = MainScreenFragmentDirections
                     .actionMainScreenFragmentToLoginFragment();
             Navigation.findNavController(view).navigate(action);
         });
 
+
+        // Кнопка "Зарегистрироваться"
         binding.buttonRegister.setOnClickListener(view -> {
             NavDirections action = MainScreenFragmentDirections
                     .actionMainScreenFragmentToRegisterFragment();
             Navigation.findNavController(view).navigate(action);
         });
 
+
+        // Кнопка "Выйти из приложения"
         binding.buttonExit.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -42,6 +47,7 @@ public class MainScreenFragment extends Fragment {
             getActivity().finish();
         });
 
+        // Устанавливаем представление для фрагмента
         return binding.getRoot();
     }
 

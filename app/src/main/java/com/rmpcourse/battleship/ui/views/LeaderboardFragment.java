@@ -24,7 +24,9 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Создаем объект представления
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
+        // получение ссылки на RecyclerView
         RecyclerView recyclerView = binding.leaderBoardRecyclerView;
 
         // Создание и назначение адаптера
@@ -34,7 +36,11 @@ public class LeaderboardFragment extends Fragment {
         //recyclerView выводит элементы в вертикальном списке
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
+        // Получаем экземплят модели данных
         mLeaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
+
+        // Подписываемся на список нужных для вывода данных и выводим их в recyclerView
         mLeaderboardViewModel.getAllLeaderboards().observe(getViewLifecycleOwner(), adapter::submitList);
 
         //Присоединение ItemDecorator для вывода разделителей
@@ -44,7 +50,7 @@ public class LeaderboardFragment extends Fragment {
         //Улучшает быстродействие, если размер макета RecyclerView не изменяется
         recyclerView.setHasFixedSize(true);
 
-        // Inflate the layout for this fragment
+        // Устанавливаем представление для фрагмента
         return binding.getRoot();
     }
 }

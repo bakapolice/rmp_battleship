@@ -29,13 +29,16 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Создаем объект представления
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+        // Получаем экземпляр модели данных
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
+        // Вешаем слушатели на поля ввода
         binding.usernameEditText.setOnFocusChangeListener((view, b) -> binding.usernameInputLayout.setError(null));
-
         binding.passwordEditText.setOnFocusChangeListener((view, b) -> binding.passwordInputLayout.setError(null));
 
+        // Кнопка "Войти"
         binding.buttonSignIn.setOnClickListener(view -> {
             binding.usernameInputLayout.clearFocus();
             binding.passwordInputLayout.clearFocus();
@@ -66,21 +69,26 @@ public class LoginFragment extends Fragment {
                 dataReady = false;
             }
 
+            // Если не все поля заполнены - не продолжаем
             if (!dataReady) return;
 
+            // Если пользователь сущестувет
             if (isPlayerExists(username)) {
-                if(isPasswordMatching(password)){
+                // Если пароль верный
+                if (isPasswordMatching(password)) {
+                    // переходим на другую страницу с помощью навигации Navigation Component и передаем нужные параметры на фрамент
                     NavDirections action = LoginFragmentDirections
                             .actionLoginFragmentToStartFragment(mPlayerViewModel.getPlayer().playerId);
                     Navigation.findNavController(view).navigate(action);
-                }
-                else {
+                } else {
+                    // Выводим всплывающее сообщение
                     Toast toast = Toast.makeText(getContext(),
                             getString(R.string.incorrect_password),
                             Toast.LENGTH_LONG);
                     toast.show();
                 }
             } else {
+                // Выводим всплывающее сообщение
                 Toast toast = Toast.makeText(getContext(),
                         getString(R.string.user_not_registered),
                         Toast.LENGTH_LONG);
@@ -88,15 +96,17 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
+        // Устанавливаем представление для фрагмента
         return binding.getRoot();
     }
 
+    // Проверка существует ли такой пользователь в БД
     private boolean isPlayerExists(String username) {
         return mPlayerViewModel.findPlayerByUsername(username);
     }
 
-    private boolean isPasswordMatching(String password){
+    // Проверка правильный ли пароль
+    private boolean isPasswordMatching(String password) {
         return Objects.equals(mPlayerViewModel.getPlayer().password, password);
     }
 }

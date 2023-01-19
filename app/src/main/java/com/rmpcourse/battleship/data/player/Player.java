@@ -3,6 +3,7 @@ package com.rmpcourse.battleship.data.player;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+// Таблица "Пользователи/Игроки"
 @Entity(tableName = "players")
 public class Player {
 

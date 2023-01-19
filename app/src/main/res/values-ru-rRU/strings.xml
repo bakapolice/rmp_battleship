@@ -32,7 +32,7 @@
     <string name="versus_title">Против</string>
     <string name="target_username_title">Имя вражеского игрока</string>
     <string name="match_date">дата игры</string>
-    <string name="match_time">Время игры: %1$d sec.</string>
+    <string name="match_time">Время игры: %1$d сек.</string>
     <string name="match_result_title">результат игры</string>
     <string name="settings">Настройки</string>
     <string name="classic_description">Игроки меняются после каждого выстрела</string>
@@ -45,7 +45,7 @@
     <string name="you_lose">Вы проиграли эту игру!</string>
     <string name="other_player_won">%1$s Победил!</string>
     <string name="other_player_lose">%1$s проиграл эту игру!</string>
-    <string name="play_again">Игать снова</string>
+    <string name="play_again">Играть снова</string>
     <string name="return_to_menu">Вернуться в меню</string>
     <string name="user_not_registered">Пользователь с таким именем не зарегистрирован!</string>
     <string name="play_with_yourself">Вы не можете играть с самим собой!</string>

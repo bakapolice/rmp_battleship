@@ -3,6 +3,7 @@ package com.rmpcourse.battleship.game;
 import java.util.ArrayList;
 import java.util.List;
 
+// Класс корабль
 public class Ship {
     private boolean alive;
     private Coordinate coordinate;
@@ -10,6 +11,7 @@ public class Ship {
     private ShipDirection direction;
     private ShipType type;
 
+    // Конструктор
     public Ship(Coordinate coordinate, ShipDirection direction, ShipType type) {
         alive = true;
         this.coordinate = coordinate;
@@ -17,23 +19,28 @@ public class Ship {
         this.type = type;
     }
 
+    // Проверить жив ли корабль
     public boolean isAlive() {
         return alive;
     }
 
+    // Установить статус жизни корбаля
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
 
+    // Получить координаты корабля
     public Coordinate getCoordinate() {
         return coordinate;
     }
 
+    // Установить координаты корабля
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
         fixInvalidCoordinate();
     }
 
+    // Получить все координаты корабля
     public List<Coordinate> getListCoordinates() {
         List<Coordinate> coordinates = new ArrayList<>();
         coordinates.add(coordinate);
@@ -54,15 +61,18 @@ public class Ship {
         return coordinates;
     }
 
+    // Полчить центр корабля
     public Coordinate getCenter() {
         int center = ((type.getLength() - 1) / 2);
         return getListCoordinates().get(center);
     }
 
+    // Получить положение корабля в пространсвте
     public ShipDirection getDirection() {
         return direction;
     }
 
+    // Установить положение корабля в пространстве
     public void setDirection(ShipDirection direction) {
         if (this.direction != direction) {
             int center = ((type.getLength() - 1) / 2);
@@ -76,6 +86,7 @@ public class Ship {
         }
     }
 
+    // Пофиксить координаты
     private void fixInvalidCoordinate() {
         int x = coordinate.getX();
         int y = coordinate.getY();
@@ -97,6 +108,7 @@ public class Ship {
         }
     }
 
+    // Повернуть корабль
     public void rotate() {
         if (direction == ShipDirection.HORIZONTAL) {
             setDirection(ShipDirection.VERTICAL);
@@ -105,10 +117,12 @@ public class Ship {
         }
     }
 
+    // Получить тип корабля
     public ShipType getType() {
         return type;
     }
 
+    // Получить размер корабля
     public int getLength() {
         return type.getLength();
     }

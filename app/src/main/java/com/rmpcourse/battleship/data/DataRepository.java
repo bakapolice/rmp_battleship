@@ -20,6 +20,7 @@ import java.util.concurrent.Future;
 
 public class DataRepository {
 
+    // Поля класса репозитория
     private PlayerDao mPlayerDao;
     private LiveData<List<Player>> mAllPlayers;
 
@@ -30,6 +31,9 @@ public class DataRepository {
     private LeaderboardDao mLeaderboardDao;
     private LiveData<List<Leaderboard>> mAllLeaderboards;
 
+
+    // Конструктор репозиторя, при создании репозитория получает ссылку на экземпляр БД,
+    // ссылки на все DAO и вызывает методы получения списокв данных из БД
     public DataRepository(Application application) {
         BattleshipRoomDatabase db = BattleshipRoomDatabase.getDatabase(application);
         mPlayerDao = db.playerDao();
@@ -47,6 +51,7 @@ public class DataRepository {
      * Player
      */
 
+    // Асинхронная запись в БД
     public long insert(Player player) {
         //BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> id = mPlayerDao.insert(player));
         Callable<Long> insertCallable = () -> mPlayerDao.insert(player);
@@ -60,18 +65,33 @@ public class DataRepository {
         return id;
     }
 
+    // Асинхронное обновление записи в БД
     public void update(Player player) {
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mPlayerDao.update(player));
     }
 
+    // Асинхронное удаление записи из БД
     public void delete(Player player) {
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mPlayerDao.delete(player));
     }
 
+    // Room все запросы на отдельных потоках
+    // Прослушиваемая LiveData оповестит подписчиков, когда данные изменятся
     public LiveData<List<Player>> getAllPlayers() {
         return mAllPlayers;
     }
 
+    LiveData<List<PlayerWithScores>> getPlayersWithScores() {
+        return mPlayerDao.getPlayersWithScores();
+    }
+    public LiveData<PlayerWithScores> getPlayerWithScoresById(long id) {
+        return mPlayerDao.getPlayerWithScoresById(id);
+    }
+    public LiveData<List<PlayerAndLeaderboard>> getPlayersAndLeaderboards() {
+        return mPlayerDao.getPlayersAndLeaderboards();
+    }
+
+    // Поиск записи в БД по параметру
     public Player findPlayerById(long id) {
         return mPlayerDao.findById(id);
     }
@@ -88,18 +108,6 @@ public class DataRepository {
         return mPlayerDao.findByUsername(username);
     }
 
-    LiveData<List<PlayerWithScores>> getPlayersWithScores() {
-        return mPlayerDao.getPlayersWithScores();
-    }
-
-    public LiveData<PlayerWithScores> getPlayerWithScoresById(long id) {
-        return mPlayerDao.getPlayerWithScoresById(id);
-    }
-
-    public LiveData<List<PlayerAndLeaderboard>> getPlayersAndLeaderboards() {
-        return mPlayerDao.getPlayersAndLeaderboards();
-    }
-
     public PlayerAndLeaderboard getPlayerAndLeaderboardByPlayerId(long id) {
         return mPlayerDao.getPlayerAndLeaderboardByPlayerId(id);
     }
@@ -108,6 +116,7 @@ public class DataRepository {
      * Score
      */
 
+    // Аналогично методам выше
     public void insert(Score score) {
         BattleshipRoomDatabase.databaseWriteExecutor.execute(() -> mScoreDao.insert(score));
     }

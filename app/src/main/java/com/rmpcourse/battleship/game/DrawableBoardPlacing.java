@@ -20,6 +20,7 @@ class DrawableBoardPlacing extends DrawableBoard {
     private boolean shipFirstTouch;
     private boolean shipDragged;
 
+    // Доска для расстановки колаблей
     public DrawableBoardPlacing(final Context context, Board board, int buttonSize) {
         super(context, buttonSize);
         this.board = board;
@@ -37,12 +38,13 @@ class DrawableBoardPlacing extends DrawableBoard {
                         int y = square.getCoordinate().getY();
                         boolean shipClicked = false;
 
-                        // Проходимся по списку кораблей и ищем какму из кораблей принадлежит квадрат, на который мы нажали
+                        // Проходимся по списку кораблей и ищем какому из кораблей принадлежит квадрат, на который мы нажали
                         for (Ship ship : ships) {
                             for (Coordinate coordinate : ship.getListCoordinates()) {
                                 int shipX = coordinate.getX();
                                 int shipY = coordinate.getY();
 
+                                // Смотрим дотронулись до корбаля в первый раз или нет, устанавливаем соответсвующие флаги
                                 if (x == shipX && y == shipY) {
                                     if (activeShip == ship) {
                                         shipFirstTouch = false;
@@ -74,6 +76,7 @@ class DrawableBoardPlacing extends DrawableBoard {
                     return false;
                 });
 
+                // Вешаем слушатель на каждый квадрат, чтобы обрабатывать передвижение кораблей по полю
                 square.setOnDragListener((view, dragEvent) -> {
                     if (activeShip != null) {
                         switch (dragEvent.getAction()) {
@@ -99,6 +102,8 @@ class DrawableBoardPlacing extends DrawableBoard {
                                 shipDragged = true;
                                 break;
                             case DragEvent.ACTION_DROP:
+                                // Если по кораблю уже нажимали ранее, и произошло касание, а не перетаскивание
+                                // меняем ориентацию корабля
                                 if (!shipDragged && !shipFirstTouch) {
                                     activeShip.rotate();
                                     colorShips();
@@ -119,14 +124,17 @@ class DrawableBoardPlacing extends DrawableBoard {
         colorShips();
     }
 
+    // Получить текущий активный корабль
     public Ship getActiveShip() {
         return activeShip;
     }
 
+    // Снять активность с кораблей
     public void setNoActiveShip() {
         activeShip = null;
     }
 
+    // Возвращает отрисовываемый квадрат по координатам
     public DrawableSquare getSquareFromCoordinate(Coordinate coordinate) {
         int x = coordinate.getX();
         int y = coordinate.getY();
@@ -138,6 +146,7 @@ class DrawableBoardPlacing extends DrawableBoard {
         }
     }
 
+    // Сброс положения кнопки "Повернуть"
     public void rotateIconReset() {
         for (int i = 0; i < BoardSize.COLUMNS; i++) {
             for (int j = 0; j < BoardSize.ROWS; j++) {
@@ -146,6 +155,7 @@ class DrawableBoardPlacing extends DrawableBoard {
         }
     }
 
+    // Покраска ячеек корабля в ависимости от ситуации
     public void colorShips() {
         colorReset();
         rotateIconReset();

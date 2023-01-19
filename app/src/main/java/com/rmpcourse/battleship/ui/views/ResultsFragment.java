@@ -32,20 +32,25 @@ public class ResultsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Создаем объект представления
         binding = FragmentResultsBinding.inflate(inflater, container, false);
+        // Получаем экземпляры модели данных
         mPlayerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         mScoresViewModel = new ViewModelProvider(this).get(ScoresViewModel.class);
         mLeaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
-
+        // Получаем аргументы
         long playerId = ResultsFragmentArgs.fromBundle(getArguments()).getPlayerId();
         long targetPlayerId = ResultsFragmentArgs.fromBundle(getArguments()).getTargetPlayerId();
+        // Вывзываем методы в модели данных для поиска данных в БД
         mPlayerViewModel.findPlayerById(playerId);
         mPlayerViewModel.findTargetPlayerById(targetPlayerId);
 
+        // Получаем аргументы
         int matchTime = ResultsFragmentArgs.fromBundle(getArguments()).getMatchTime();
         boolean win = ResultsFragmentArgs.fromBundle(getArguments()).getWin();
         long today = new Date().getTime();
 
+        // Создаем новые объекты и устанавливаем в них необходимые данные
         Score playerScore = new Score();
         playerScore.playerUsername = mPlayerViewModel.getPlayer().username;
         playerScore.targetUsername = mPlayerViewModel.getTargetPlayer().username;
@@ -66,7 +71,6 @@ public class ResultsFragment extends Fragment {
         Leaderboard targetLeaderboard = mLeaderboardViewModel.findLeaderboardByPlayerId(targetPlayerId);
 
         if (win) {
-            //binding.imageTrophy.setVisibility(View.VISIBLE);
             binding.winnerTextView.setText(getString(R.string.you_win));
             binding.looserTextView.setText(getString(R.string.other_player_lose, mPlayerViewModel.getTargetPlayer().username));
 
@@ -81,7 +85,6 @@ public class ResultsFragment extends Fragment {
             playerScore.matchResult = getString(R.string.loss);
             targetScore.matchResult = getString(R.string.win);
 
-            //binding.imageTrophy.setVisibility(View.GONE);
             binding.winnerTextView.setText(getString(R.string.you_lose));
             binding.looserTextView.setText(getString(R.string.other_player_won, mPlayerViewModel.getTargetPlayer().username));
 
@@ -89,24 +92,27 @@ public class ResultsFragment extends Fragment {
             playerLeaderboard.totalLosses = playerLeaderboard.totalLosses + 1;
         }
 
+        // С помощью модели данных записываем новые значения и обновляем существующие в БД
         mScoresViewModel.insert(playerScore);
         mScoresViewModel.insert(targetScore);
         mLeaderboardViewModel.update(playerLeaderboard);
         mLeaderboardViewModel.update(targetLeaderboard);
 
+        // Кнопка "Играть снова"
         binding.buttonPlayAgain.setOnClickListener(view -> {
             NavDirections action = ResultsFragmentDirections
                     .actionResultsFragmentToInGameFragment(playerId, targetPlayerId);
             Navigation.findNavController(view).navigate(action);
         });
 
+        // Кнопка "Вернуться в меню"
         binding.buttonReturnToMenu.setOnClickListener(view -> {
             NavDirections action = ResultsFragmentDirections
                     .actionResultsFragmentToStartFragment(playerId);
             Navigation.findNavController(view).navigate(action);
         });
 
-        // Inflate the layout for this fragment
+        // Устанавливаем представление для фрагмента
         return binding.getRoot();
     }
 }

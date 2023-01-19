@@ -13,11 +13,14 @@ import java.text.SimpleDateFormat;
 public class ScoreViewHolder extends RecyclerView.ViewHolder {
     private final ItemScoreBinding binding;
 
+    //Вложенный субкласс RecyclerView.ViewHolder используется для реализации
+    //паттерна View-Holder в контексте RecyclerView
     public ScoreViewHolder(ItemScoreBinding b) {
         super(b.getRoot());
         this.binding = b;
     }
 
+    // Установка данных для отображения
     @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     public void bind(Score score, ScoreViewHolder viewHolder) {
         binding.textViewTargetUsername.setText(score.targetUsername);

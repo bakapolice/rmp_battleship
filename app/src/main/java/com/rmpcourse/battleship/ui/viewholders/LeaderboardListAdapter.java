@@ -12,6 +12,8 @@ import com.rmpcourse.battleship.data.leaderboard.Leaderboard;
 import com.rmpcourse.battleship.databinding.ItemLeaderboardBinding;
 
 public class LeaderboardListAdapter extends ListAdapter<Leaderboard, LeaderboardViewHolder> {
+
+    // Конструктор адаптера, который вызывает коллбэк на проверку списков на отличия
     public LeaderboardListAdapter(@NonNull DiffUtil.ItemCallback<Leaderboard> diffCallback) {
         super(diffCallback);
     }
@@ -25,12 +27,14 @@ public class LeaderboardListAdapter extends ListAdapter<Leaderboard, Leaderboard
                 false));
     }
 
+    // Установка данных для отображения
     @Override
     public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
         Leaderboard current = getItem(position);
         holder.bind(current, holder);
     }
 
+    // Проверка списков на изменения
     public static class LeaderboardDiff extends DiffUtil.ItemCallback<Leaderboard> {
 
         @Override

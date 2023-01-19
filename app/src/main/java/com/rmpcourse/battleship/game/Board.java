@@ -8,10 +8,15 @@ import java.util.Random;
 public class Board {
     // Матрица, в каждой ячейке которой находится текущий статус этой ячейки
     private BoardStatus[][] statuses;
+    // Список кораблей
     private List<Ship> ships;
     private Random random = new Random();
+
+    // Флаг для отслеживания все ли корабли расставлены
     private boolean shipsPlaced;
 
+
+    // Класс доски для отслеживания статуса ячеек и отрисовки на основе этой ниформации
     public Board() {
         this.statuses = new BoardStatus[BoardSize.COLUMNS][BoardSize.ROWS];
 
@@ -20,7 +25,7 @@ public class Board {
             Arrays.fill(row, BoardStatus.HIDDEN_EMPTY);
         }
 
-
+        // Создание списка кораблей
         ships = new ArrayList<>();
 
         ships.add(new Ship(new Coordinate(0, 0), ShipDirection.VERTICAL, ShipType.CARRIER));
@@ -32,58 +37,32 @@ public class Board {
         shipsPlaced = false;
     }
 
+    // Получить статус ячейки
     public BoardStatus getStatus(int x, int y) {
         return statuses[x][y];
     }
 
+    // Установить статус ячейки
     public void setStatus(int x, int y, BoardStatus status) {
         statuses[x][y] = status;
     }
 
-    public boolean isStatusHidden(int x, int y) {
-        if (statuses[x][y] == BoardStatus.HIDDEN_EMPTY || statuses[x][y] == BoardStatus.HIDDEN_SHIP) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    // Получить список кораблей
     public List<Ship> getShips() {
         return ships;
     }
 
-    public int getSmallestRemainingShip() {
-        int smallest = 5;
-
-        for (Ship ship : ships) {
-            if (ship.isAlive() && ship.getLength() < smallest) {
-                smallest = ship.getLength();
-            }
-        }
-
-        return smallest;
-    }
-
-    public int getLongestRemainingShip() {
-        int longest = 2;
-
-        for (Ship ship : ships) {
-            if (ship.isAlive() && ship.getLength() > longest) {
-                longest = ship.getLength();
-            }
-        }
-
-        return longest;
-    }
-
+    // Получить флаг расстановки кораблей
     public boolean areShipsPlaced() {
         return shipsPlaced;
     }
 
+    // Установить, что все корабли расставлены
     public void setShipsPlaced(boolean shipsPlaced) {
         this.shipsPlaced = shipsPlaced;
     }
 
+    // Растановка кораблей случайным образом
     public void placeShipsRandom() {
         for (Ship ship : ships) {
             boolean valid = false;
@@ -110,6 +89,7 @@ public class Board {
         }
     }
 
+    // Проверка на пересечение двух кораблей
     private boolean isColliding(Ship ship1, Ship ship2) {
         if (ship1 != ship2) {
             for (Coordinate coordinate : ship1.getListCoordinates()) {
@@ -124,6 +104,7 @@ public class Board {
         return false;
     }
 
+    // Проверка на пересечение корабля с чем-нибудь
     public boolean isCollidingWithAny(Ship ship) {
         for (Ship ship2 : ships) {
             if (isColliding(ship, ship2)) {
@@ -134,6 +115,7 @@ public class Board {
         return false;
     }
 
+    // Проверка доски на валидность, нет ли каких-либо пересечений
     public boolean isValidBoard() {
         for (Ship ship : ships) {
             if (isCollidingWithAny(ship)) {
@@ -144,6 +126,7 @@ public class Board {
         return true;
     }
 
+    // Подвердить расстановку кораблей
     public void confirmShipLocations() {
         if (isValidBoard()) {
             for (Ship ship : ships) {
@@ -157,6 +140,7 @@ public class Board {
         }
     }
 
+    // Поиск корабля, который нужно затопить по результатам попаданий
     public Ship shipToSink() {
         for (Ship ship : ships) {
             boolean alive = false;
@@ -179,6 +163,7 @@ public class Board {
         return null;
     }
 
+    // Утопить все корабли
     public void sinkShips() {
         if (shipToSink() != null) {
             Ship ship = shipToSink();
@@ -193,6 +178,7 @@ public class Board {
         }
     }
 
+    // Проверить все ли корабли затонули
     public boolean allShipsSunk() {
         for (Ship ship : ships) {
             if (ship.isAlive()) {
@@ -204,7 +190,7 @@ public class Board {
     }
 }
 
-
+// Положение корабля в пространстве
 enum ShipDirection {
     HORIZONTAL, VERTICAL
 }
