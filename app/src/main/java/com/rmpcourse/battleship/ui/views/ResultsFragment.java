@@ -23,6 +23,8 @@ import java.util.Date;
 
 public class ResultsFragment extends Fragment {
 
+    // инструмент, который позволяет проще писать код для взаимодейтсвия с view
+    // используя декларативный формат,
     private FragmentResultsBinding binding;
     private PlayerViewModel mPlayerViewModel;
     private ScoresViewModel mScoresViewModel;

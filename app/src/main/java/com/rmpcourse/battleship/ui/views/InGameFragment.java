@@ -39,10 +39,11 @@ import java.util.Date;
 
 public class InGameFragment extends Fragment {
 
+    // инструмент, который позволяет проще писать код для взаимодейтсвия с view
+    // используя декларативный формат,
     private FragmentInGameBinding binding;
     private PlayerViewModel mPlayerViewModel;
     private long playerId = -1, targetPlayerId = -1;
-
     private int timeRemaining = -1;
     private final int waiting = 1;
 

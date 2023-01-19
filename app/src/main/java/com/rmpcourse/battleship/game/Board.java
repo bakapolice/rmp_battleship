@@ -10,6 +10,7 @@ public class Board {
     private BoardStatus[][] statuses;
     // Список кораблей
     private List<Ship> ships;
+    // генератор случайных чисел
     private Random random = new Random();
 
     // Флаг для отслеживания все ли корабли расставлены
@@ -17,6 +18,7 @@ public class Board {
 
 
     // Класс доски для отслеживания статуса ячеек и отрисовки на основе этой ниформации
+    // Кноструктор класса
     public Board() {
         this.statuses = new BoardStatus[BoardSize.COLUMNS][BoardSize.ROWS];
 
