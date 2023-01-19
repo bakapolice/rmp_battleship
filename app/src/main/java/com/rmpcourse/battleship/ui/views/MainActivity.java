@@ -22,17 +22,6 @@ public class MainActivity extends AppCompatActivity {
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(0);
         }
-//        ScoresViewModel scoresViewModel = new ViewModelProvider(this)
-//                .get(ScoresViewModel.class);
-//
-//        Score score = new Score();
-//        score.playerUsername = "test";
-//        score.targetUsername = "target test";
-//        score.matchResult = "WIN";
-//        score.date = new Date().getTime();
-//        score.matchTime = 320.5;
-//
-//        scoresViewModel.insert(score);
     }
 
 

@@ -45,7 +45,7 @@ public class InGameFragment extends Fragment {
     private PlayerViewModel mPlayerViewModel;
     private long playerId = -1, targetPlayerId = -1;
     private int timeRemaining = -1;
-    private final int waiting = 1;
+    private final int waiting = 2;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
